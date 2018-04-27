@@ -15,6 +15,7 @@ public class Aexp {
     private Float fnum;
     private String id;
     private Boolean bl;
+    private String ttype;
     
     
     private Args operands;
@@ -35,10 +36,10 @@ public class Aexp {
         id = x;        
     }
     
-    Aexp(Boolean x){
+    Aexp(Boolean x) {
         eType = AexpType.BOOLEAN;
         bl = x;
-    }  
+    }
     
 
     Aexp(Args x, int op) {
@@ -54,6 +55,7 @@ public class Aexp {
             case INTEGER: s = "" + inum; break;
             case FLOAT: s = "" + fnum; break;
             case ID: s = id; break;
+            case BOOLEAN: s = bl.toString(); break;
             case EXP:
                 switch (operator) {
                     case sym.PLUS:
@@ -94,6 +96,13 @@ public class Aexp {
                     System.out.print(id + " was not declared");
                     System.exit(0);
                 }   break;
+            case BOOLEAN:
+                //expression is a variable
+                val = SymbolTable.getValue(bl.toString());
+                if (val == null) {
+                    System.out.print(bl + " was not declared");
+                    System.exit(0);
+                }   break;
             case EXP:
                 //expression is a math expression
                 switch (operator) {
@@ -116,4 +125,23 @@ public class Aexp {
         }
         return val;
     }
+    
+    public String getType(){    
+        String t = "";
+            switch (this.eType) {
+                case INTEGER: t = "Integer" ; break;
+                case FLOAT: t = "Float"; break;
+                case ID: t = "Char"; break;
+//                        t = SymbolTable.getType(id);
+//                        if (t == null) {
+//                            System.out.print(id + " was not Type");
+//                            System.exit(0);
+//                        }   break;
+                
+                case BOOLEAN: t = "Boolean"; break;           
+                default: break;
+            }        
+        return t;
+    }
+    
 }

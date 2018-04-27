@@ -1,8 +1,11 @@
 a : Boolean;
+b : FLOAT;
+
+
 
 a = 2;
 b = 5;
-c = 1+1;
+c = 14;
 
 print a;
 print a + b;
@@ -16,11 +19,11 @@ begin
 print b;
 end;
 
-if 1+1 then print c;
+if 1+1 then print c+1;
 
 print d;
 
-
+print a * 10;
 
 
 

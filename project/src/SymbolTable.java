@@ -15,4 +15,12 @@ public class SymbolTable extends Hashtable<String,Object>{
     static Integer getValue(String id){
         return (Integer) globalTable.get(id);
     }
+    
+    static void setType(String id, String type){
+        globalTable.put(id, type);
+    }
+    
+    static String getType(String type){
+        return (String) globalTable.get(type);
+    }
 }

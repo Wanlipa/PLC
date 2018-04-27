@@ -75,7 +75,7 @@ float = (0\.[0-9]+) | ([1-9][0-9]*\.[0-9]+)
    Z, a and z, or an underscore followed by zero or more letters
    between A and Z, a and z, zero and nine, or an underscore. */
 id = [A-Za-z_][A-Za-z_0-9]*
-boolean = [True] | [False]
+boolean = true | false
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
