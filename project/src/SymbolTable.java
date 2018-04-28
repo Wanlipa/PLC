@@ -24,8 +24,8 @@ public class SymbolTable extends Hashtable<String,Object>{
         return (Float) globalTable.get(id);
     }
     
-    static void setType(String id, String type){
-        globalTable.put(id, type);
+    static void setType(String type, String id){
+        globalTable.put(type, id);
     }
     
     static String getType(String type){

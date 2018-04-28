@@ -11,9 +11,10 @@ terminal String    ID;
 terminal Boolean   BL;
 
 non terminal Object             program;
-non terminal Astat              statement, assignment, ifthen ,console , while, statement_part;
+non terminal Astat              statement, assignment, ifthen ,console , while, statement_part, assigntype;
 non terminal Lstat              statement_list;
-non terminal Aexp               expr, factor, group, type;
+non terminal Aexp               expr, factor, group;
+non terminal Atype              type;
 
 program         ::= statement_list:s
                     {: s.execute(); :};
@@ -29,6 +30,8 @@ statement_part  ::= statement:s
                 SEMI;
 
 statement       ::= assignment:s
+                    {: RESULT = s; :}
+                | assigntype:s
                     {: RESULT = s; :}
                 | ifthen:s
                     {: RESULT = s; :}
@@ -55,6 +58,10 @@ console         ::= CONSOLE LSHIFT expr:e
 
 ifthen          ::= IF expr:e THEN LBRACE statement:s RBRACE
                     {: RESULT = Astat.ifthen(e,s); :}
+                | ELSEIF expr:e THEN LBRACE statement:s RBRACE
+                    {: RESULT = Astat.ifthen(e,s); :}
+                | ELSE THEN LBRACE expr:e RBRACE
+                    {: RESULT = Astat.print(e); :}
                 ;
 
 expr            ::= expr:e PLUS group:g
@@ -82,5 +89,6 @@ factor          ::= LPAREN expr:e RPAREN
                 | BL:b
                     {: RESULT = new Aexp(b); :};
 
-
+type            ::= type:t
+                    {: RESULT = new Atype(t.toString()); :};
 

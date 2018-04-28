@@ -11,7 +11,15 @@ begin
 console << b;
 end;
 
-if 1 => { console << c };
+console << 1.9;
+/*
+if 1 => { console << 5.5 };
+
+elseif 1 => { console << 100 };
+
+else => {c};
+*/
+
 
 
 

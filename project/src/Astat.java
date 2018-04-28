@@ -4,19 +4,23 @@ public class Astat {
 
     int statementType;
     public static int assignment = 0;
-    public static int varDeclaration = 1;
+    public static int assigntype = 1;
+//    public static int varDeclaration = 1;
     public static int print = 2;
     public static int ifthen = 3;
     public static int block = 4;
     public static int whileloop = 5;
     public static int funDeclaration = 6;
     public static int returnStatement = 7;
+    public static int ifelse = 8;
     /*
      * assignment statement: variable = expr
      * adding : floating , boolean
      */
     String assVariable;
     Aexp assExpr;
+    String assVarType;
+    
 
     public static Astat assignment(String Variable, Aexp expr) {
         Astat statement = new Astat();
@@ -28,21 +32,41 @@ public class Astat {
         return statement;
 
     }
+    
+    /*
+     * assignment statement: variable = expr
+     * adding : floating , boolean
+     */
+    Atype assType;
+    String assVartype;
+    Aexp assExprtype;
+
+    public static Astat assigntype(Atype type, String Variable, Aexp expr) {
+        Astat statement = new Astat();
+        statement.statementType = assigntype;
+
+        statement.assType = type;
+        statement.assVartype = Variable;
+        statement.assExprtype = expr;
+
+        return statement;
+
+    }
       
     /*
      * varDeclaration statement: Variable : Type
      * 
      */
-    String assDec;
-    Aexp assType;
-    public static Astat varDeclaration(String Variable, Aexp type){
-        Astat statement = new Astat();
-        statement.statementType = varDeclaration;
-        
-        statement.assDec = Variable;
-        statement.assType = type;
-        return statement;
-    }
+//    String assDec;
+//    Aexp assType;
+//    public static Astat varDeclaration(String Variable, Aexp type){
+//        Astat statement = new Astat();
+//        statement.statementType = varDeclaration;
+//        
+//        statement.assDec = Variable;
+//        statement.assType = type;
+//        return statement;
+//    }
     
     /*
      * print statement: print e
@@ -71,6 +95,14 @@ public class Astat {
         statement.ifcondition = Condition;
         statement.ifbody = Ifbody;
 
+        return statement;
+    }
+    
+    Aexp ifElse;
+    public static Astat ifelse(Aexp expr){
+        Astat statement = new Astat();
+        statement.statementType = ifelse;
+        statement.ifElse = expr;
         return statement;
     }
 
@@ -105,9 +137,7 @@ public class Astat {
 
     public String getstat() {
         if (statementType == assignment) {
-            return assVariable + "=" + assExpr.getexp();
-        }else if (statementType == varDeclaration){
-            return assDec + ":" + assType.getexp();
+            return assVariable + "=" + assExpr.getexp();        
         }else if (statementType == ifthen) {
             return "if " + ifcondition.getexp() + " " + ifbody.getstat();
         } else if (statementType == print) {
@@ -124,10 +154,11 @@ public class Astat {
     public void execute() {
 
         if (statementType == assignment) {
+            
             SymbolTable.setValue(assVariable, assExpr.getValue());
             
-        } else if (statementType == varDeclaration) {
-            SymbolTable.setType(assDec, assType.getType());
+//        } else if (statementType == varDeclaration) {
+//            SymbolTable.setType(assDec, assType.getType());
         
         }else if (statementType == ifthen) {
 
@@ -149,8 +180,8 @@ public class Astat {
             }
 
         } else if (statementType == print) {
-              
-            System.out.println(printE.getValue());                       
+
+            System.out.println(printE.getValue());     
             System.out.println(printE.getexp());
             System.out.println(printE.getType());
             System.out.println("-------------------");

@@ -15,7 +15,6 @@ public class Aexp {
     private Float fnum;
     private String id;
     private Boolean bl;
-    private String ttype;
     
     
     private Args operands;
@@ -91,10 +90,10 @@ public class Aexp {
                 val = inum; break;
             case FLOAT:
                 //expression is a number
-//                val = (int)(Math.round(fnum)); break;
+                val = (int)(Math.round(fnum)); break;
 //                fval = fnum; break;
-                System.out.print(fnum + " is float can't calculate");
-                System.exit(0);
+//                System.out.print(fnum + " is float can't calculate");
+//                System.exit(0);
             case ID:
                 //expression is a variable
                 val = SymbolTable.getValue(id);
