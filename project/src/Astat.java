@@ -113,7 +113,7 @@ public class Astat {
         } else if (statementType == print) {
             return "print " + printE.getexp();
         } else if (statementType == whileloop) {
-            return "while " + whileCondition.getexp() + " do " + whileBody.getstat();
+            return "while " + whileCondition.getexp() + " => " + whileBody.getstat();
         } else if (statementType == block) {
             return "block";
         } else {
