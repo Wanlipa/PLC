@@ -53,7 +53,7 @@ console         ::= CONSOLE LSHIFT expr:e
                     {: RESULT = Astat.print(e); :}
                 ;
 
-ifthen          ::= IF expr:e THEN statement:s
+ifthen          ::= IF expr:e THEN LBRACE statement:s RBRACE
                     {: RESULT = Astat.ifthen(e,s); :}
                 ;
 

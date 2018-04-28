@@ -1,7 +1,7 @@
 
 a = 2;
 b = 5;
-
+c = 99;
 console << a;
 
 while a =>
@@ -10,6 +10,8 @@ begin
     a = a - 1;
 console << b;
 end;
+
+if 1 => { console << c };
 
 
 
