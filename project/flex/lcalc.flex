@@ -105,7 +105,7 @@ char = [^\r\n\"\\]
 
     /* Return the token SEMI declared in the class sym that was found. */
     ";"                { return symbol(sym.SEMI); }
-    ":"                { return symbol(sym.COLON); }
+
 
     /* Print the token found that was declared in the class sym and then
        return it. */
@@ -116,13 +116,24 @@ char = [^\r\n\"\\]
     "("                { return symbol(sym.LPAREN); }
     ")"                { return symbol(sym.RPAREN); }
     "="                { return symbol(sym.EQ); }
+    "{"                { return symbol(sym.LBRACE); }
+    "}"                { return symbol(sym.RBRACE); }
     "if"               { return symbol(sym.IF); }
-    "then"             { return symbol(sym.THEN); }
+    "=>"               { return symbol(sym.THEN); }
     "print"            { return symbol(sym.PRINT); }
+    "<<"               { return symbol(sym.LSHIFT); }
     "while"            { return symbol(sym.WHILE); }
     "do"               { return symbol(sym.DO); }
     "begin"            { return symbol(sym.BEGIN); }
     "end"              { return symbol(sym.END); }
+    "=="               { return symbol(sym.EQEQ); }
+    ">"                { return symbol(sym.GT); }
+    "<"                { return symbol(sym.LT); }
+    "<="               { return symbol(sym.LTEQ); }
+    ">="               { return symbol(sym.GTEQ); }
+    "&"                { return symbol(sym.AND); }
+    "|"                { return symbol(sym.OR); }
+
 
    
 

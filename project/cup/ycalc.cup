@@ -2,7 +2,8 @@ package src;
 import java_cup.runtime.*;
 
 
-terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, EQ, COLON,
+terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, EQ, LBRACE, RBRACE, LSHIFT,
+                   EQEQ, GT, LT, LTEQ, GTEQ, AND, OR,
                    IF, THEN, PRINT, WHILE,  DO, BEGIN,  END;
 terminal Integer   INUM;
 terminal Float     FNUM;
@@ -10,7 +11,7 @@ terminal String    ID;
 terminal Boolean   BL;
 
 non terminal Object             program;
-non terminal Astat              statement, assignment, ifthen, vardec ,print, while, statement_part;
+non terminal Astat              statement, assignment, ifthen ,print, while, statement_part;
 non terminal Lstat              statement_list;
 non terminal Aexp               expr, factor, term;
 
@@ -28,8 +29,6 @@ statement_part  ::= statement:s
                 SEMI;
 
 statement       ::= assignment:s
-                    {: RESULT = s; :}
-                | vardec:s
                     {: RESULT = s; :}
                 | ifthen:s
                     {: RESULT = s; :}
@@ -58,9 +57,6 @@ assignment      ::= ID:i EQ expr:e
                     {: RESULT = Astat.assignment(i,e); :}
                 ;
 
-vardec          ::= ID:i COLON factor:f
-                    {: RESULT = Astat.varDeclaration(i,f); :}
-                ;
 
 expr            ::= expr:e PLUS term:t
                     {: RESULT = new Aexp(new Args(e,t), sym.PLUS); :}
