@@ -119,6 +119,8 @@ char = [^\r\n\"\\]
     "{"                { return symbol(sym.LBRACE); }
     "}"                { return symbol(sym.RBRACE); }
     "if"               { return symbol(sym.IF); }
+    "elseif"           { return symbol(sym.ELSEIF); }
+    "else"             { return symbol(sym.ELSE); }
     "=>"               { return symbol(sym.THEN); }
     "print"            { return symbol(sym.PRINT); }
     "<<"               { return symbol(sym.LSHIFT); }

@@ -4,7 +4,7 @@ import java_cup.runtime.*;
 
 terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, EQ, LBRACE, RBRACE, LSHIFT,
                    EQEQ, GT, LT, LTEQ, GTEQ, AND, OR,
-                   IF, THEN, PRINT, WHILE,  DO, BEGIN,  END;
+                   IF, ELSEIF, ELSE, THEN, PRINT, WHILE,  DO, BEGIN,  END;
 terminal Integer   INUM;
 terminal Float     FNUM;
 terminal String    ID;
@@ -13,7 +13,7 @@ terminal Boolean   BL;
 non terminal Object             program;
 non terminal Astat              statement, assignment, ifthen ,print, while, statement_part;
 non terminal Lstat              statement_list;
-non terminal Aexp               expr, factor, term;
+non terminal Aexp               expr, factor, group, type;
 
 program         ::= statement_list:s
                     {: s.execute(); :};
@@ -40,11 +40,16 @@ statement       ::= assignment:s
                     {: RESULT = Astat.block(s); :}
                 ;
 
-while           ::= WHILE expr:e DO statement:s
+assignment      ::= ID:i EQ expr:e
+                    {: RESULT = Astat.assignment(i,e); :}
+                ;
+
+
+while           ::= WHILE expr:e THEN statement:s 
                     {: RESULT = Astat.whileloop(e,s); :}
                 ;
 
-print           ::= PRINT expr:e
+print           ::= PRINT LSHIFT expr:e
                     {: RESULT = Astat.print(e); :}
                 ;
 
@@ -52,23 +57,17 @@ ifthen          ::= IF expr:e THEN statement:s
                     {: RESULT = Astat.ifthen(e,s); :}
                 ;
 
+expr            ::= expr:e PLUS group:g
+                    {: RESULT = new Aexp(new Args(e,g), sym.PLUS); :}
+                | expr:e MINUS group:g
+                    {: RESULT = new Aexp(new Args(e,g), sym.MINUS); :}
+                | group:g
+                    {: RESULT = g; :};
 
-assignment      ::= ID:i EQ expr:e
-                    {: RESULT = Astat.assignment(i,e); :}
-                ;
-
-
-expr            ::= expr:e PLUS term:t
-                    {: RESULT = new Aexp(new Args(e,t), sym.PLUS); :}
-                | expr:e MINUS term:t
-                    {: RESULT = new Aexp(new Args(e,t), sym.MINUS); :}
-                | term:t
-                    {: RESULT = t; :};
-
-term            ::= term:t TIMES factor:f
-                    {: RESULT = new Aexp(new Args(t,f), sym.TIMES); :}
-                | term:t DIVIDE factor:f
-                    {: RESULT = new Aexp(new Args(t,f), sym.DIVIDE); :}
+group            ::= group:g TIMES factor:f
+                    {: RESULT = new Aexp(new Args(g,f), sym.TIMES); :}
+                | group:g DIVIDE factor:f
+                    {: RESULT = new Aexp(new Args(g,f), sym.DIVIDE); :}
                 | factor:f
                     {: RESULT = f; :};
 
@@ -82,4 +81,6 @@ factor          ::= LPAREN expr:e RPAREN
                     {: RESULT = new Aexp(i); :}
                 | BL:b
                     {: RESULT = new Aexp(b); :};
+
+
 
