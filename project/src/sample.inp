@@ -1,10 +1,11 @@
-a : Boolean;
+a : Integer;
 
 a = 2;
 b = 5;
 c = 1+1;
 
 print a;
+/*
 print a + b;
 
 d = (3 + 1 + 1) * 9;
@@ -19,7 +20,7 @@ end;
 if 1+1 then print c;
 
 print d;
-
+*/
 
 
 

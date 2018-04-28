@@ -61,9 +61,20 @@ import java_cup.runtime.*;
 /* A line terminator is a \r (carriage return), \n (line feed), or
    \r\n. */
 LineTerminator = \r|\n|\r\n
+InputCharacter = [^\r\n]
 
 /* White space is a line terminator, space, tab, or line feed. */
 WhiteSpace     = {LineTerminator} | [ \t\f]
+
+
+TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+/* Comment can be the last line of the file, without line terminator. */
+EndOfLineComment = "//" {InputCharacter}* {LineTerminator}?
+DocumentationComment = "/**" {CommentContent} "*"+ "/"
+CommentContent = ( [^*] | \*+ [^/*] )*
+
+/* comments */
+Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
 
 /* A literal integer is is a number beginning with a number between
    one and nine followed by zero or more numbers between zero and nine
@@ -75,7 +86,8 @@ float = (0\.[0-9]+) | ([1-9][0-9]*\.[0-9]+)
    Z, a and z, or an underscore followed by zero or more letters
    between A and Z, a and z, zero and nine, or an underscore. */
 id = [A-Za-z_][A-Za-z_0-9]*
-boolean = [True] | [False]
+boolean = [true] | [false]
+char = [^\r\n\"\\]
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -124,6 +136,8 @@ boolean = [True] | [False]
 
     /* Don't do anything if whitespace is found */
     {WhiteSpace}       { /* just skip what was found, do nothing */ }
+
+    {Comment}          { /* just skip what was found, do nothing */ }
 }
 
 

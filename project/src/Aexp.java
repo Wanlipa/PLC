@@ -24,21 +24,25 @@ public class Aexp {
     Aexp(Integer x) {
         eType = AexpType.INTEGER;
         inum = x;        
+
     }
     
     Aexp(Float x) {
         eType = AexpType.FLOAT;
         fnum = x;
+
     }
     
     Aexp(String x) {
         eType = AexpType.ID;
         id = x;        
+
     }
     
     Aexp(Boolean x) {
         eType = AexpType.BOOLEAN;
         bl = x;
+
     }
     
 
@@ -87,8 +91,10 @@ public class Aexp {
                 val = inum; break;
             case FLOAT:
                 //expression is a number
-                val = (int)(Math.round(fnum)); break;
+//                val = (int)(Math.round(fnum)); break;
 //                fval = fnum; break;
+                System.out.print(fnum + " is float can't calculate");
+                System.exit(0);
             case ID:
                 //expression is a variable
                 val = SymbolTable.getValue(id);
@@ -126,6 +132,52 @@ public class Aexp {
         return val;
     }
     
+    public float getValuef() {
+        Float fval = 0.0f;
+        switch (this.eType) {
+            case INTEGER:
+                // expression is a number
+                fval = (float)inum; break;
+            case FLOAT:
+                //expression is a number
+                fval = fnum; break;
+            case ID:
+                //expression is a variable
+                fval = SymbolTable.getValuef(id);
+                if (fval == null) {
+                    System.out.print(id + " was not declared");
+                    System.exit(0);
+                }   break;
+            case BOOLEAN:
+                //expression is a variable
+                fval = SymbolTable.getValuef(bl.toString());
+                if (fval == null) {
+                    System.out.print(bl + " was not declared");
+                    System.exit(0);
+                }   break;
+            case EXP:
+                //expression is a math expression
+                switch (operator) {
+                    case sym.PLUS:
+                        fval = operands.getfi().getValuef() + operands.getse().getValuef();
+                        break;
+                    case sym.MINUS:
+                        fval = operands.getfi().getValuef() - operands.getse().getValuef();
+                        break;
+                    case sym.TIMES:
+                        fval = operands.getfi().getValuef() * operands.getse().getValuef();
+                        break;
+                    case sym.DIVIDE:
+                        fval = operands.getfi().getValuef() / operands.getse().getValuef();
+                        break;
+                    default:
+                        break;
+                } break;
+            default: break;
+        }
+        return fval;
+    }
+        
     public String getType(){    
         String t = "";
             switch (this.eType) {

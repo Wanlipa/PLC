@@ -135,6 +135,7 @@ public class Astat {
                 ifbody.execute();
             }
 
+
         } else if (statementType == whileloop) {
 
             for (;;) {
@@ -149,7 +150,7 @@ public class Astat {
 
         } else if (statementType == print) {
               
-            System.out.println(printE.getValue());            
+            System.out.println(printE.getValue());                       
             System.out.println(printE.getexp());
             System.out.println(printE.getType());
             System.out.println("-------------------");
