@@ -7,6 +7,7 @@ public class Aexp {
         FLOAT,
         ID,
         BOOLEAN,
+        CHAR,
         EXP
     }
     
@@ -15,6 +16,8 @@ public class Aexp {
     private Float fnum;
     private String id;
     private Boolean bl;
+    private char character;
+
     
     
     private Args operands;
@@ -44,6 +47,11 @@ public class Aexp {
 
     }
     
+    Aexp(char x){
+        eType = AexpType.CHAR;
+        this.character = x;
+    }
+    
 
     Aexp(Args x, int op) {
         eType = AexpType.EXP;
@@ -59,6 +67,7 @@ public class Aexp {
             case FLOAT: s = "" + fnum; break;
             case ID: s = id; break;
             case BOOLEAN: s = bl.toString(); break;
+            case CHAR: s = "" + character; break;
             case EXP:
                 switch (operator) {
                     case sym.PLUS:
@@ -182,13 +191,7 @@ public class Aexp {
             switch (this.eType) {
                 case INTEGER: t = "Integer" ; break;
                 case FLOAT: t = "Float"; break;
-                case ID: t = "Char"; break;
-//                        t = SymbolTable.getType(id);
-//                        if (t == null) {
-//                            System.out.print(id + " was not Type");
-//                            System.exit(0);
-//                        }   break;
-                
+                case ID: t = "Char"; break;                
                 case BOOLEAN: t = "Boolean"; break;           
                 default: break;
             }        

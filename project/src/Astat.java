@@ -17,15 +17,18 @@ public class Astat {
      * assignment statement: variable = expr
      * adding : floating , boolean
      */
+    
+    String assVarType;
     String assVariable;
     Aexp assExpr;
-    String assVarType;
     
-
+    
     public static Astat assignment(String Variable, Aexp expr) {
+//    public static Astat assignment(String type, String Variable, Aexp expr) {
         Astat statement = new Astat();
         statement.statementType = assignment;
 
+//        statement.assVarType = type;
         statement.assVariable = Variable;
         statement.assExpr = expr;
 
@@ -154,8 +157,8 @@ public class Astat {
     public void execute() {
 
         if (statementType == assignment) {
-            
             SymbolTable.setValue(assVariable, assExpr.getValue());
+//            SymbolTable.setValue(assVarType , assVariable, assExpr.getValue());
             
 //        } else if (statementType == varDeclaration) {
 //            SymbolTable.setType(assDec, assType.getType());

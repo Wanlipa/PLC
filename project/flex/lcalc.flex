@@ -84,10 +84,13 @@ float = (0\.[0-9]+) | ([1-9][0-9]*\.[0-9]+)
 
 /* A identifier integer is a word beginning a letter between A and
    Z, a and z, or an underscore followed by zero or more letters
-   between A and Z, a and z, zero and nine, or an underscore. */
+   between A and Z, a and z, zero and nine, or an underscore. 
+    [^\r\n\"\\]
+*/
 id = [A-Za-z_][A-Za-z_0-9]*
 boolean = [true] | [false]
-char = [^\r\n\"\\]
+char = \'[A-Za-z_0-9]\'
+
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -135,9 +138,13 @@ char = [^\r\n\"\\]
     ">="               { return symbol(sym.GTEQ); }
     "&"                { return symbol(sym.AND); }
     "|"                { return symbol(sym.OR); }
+    "int"              { return symbol(sym.TYPE, yytext());}
+    "float"            { return symbol(sym.TYPE, yytext());}
+    "boolean"          { return symbol(sym.TYPE, yytext());}
+    "char"             { return symbol(sym.TYPE, yytext());}
 
 
-   
+
 
     {int}      { return symbol(sym.INUM, new Integer(yytext())); }
 
@@ -146,6 +153,11 @@ char = [^\r\n\"\\]
     {id}       { return symbol(sym.ID, yytext());}
 
     {boolean}  { return symbol(sym.BL, yytext());}
+
+    {char}     { return symbol(sym.CHAR, yytext());}
+
+
+
 
     /* Don't do anything if whitespace is found */
     {WhiteSpace}       { /* just skip what was found, do nothing */ }
