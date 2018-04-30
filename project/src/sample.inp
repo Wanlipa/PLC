@@ -1,5 +1,5 @@
 
-int a = 2;
+int a = 3;
 console << a - 1;
 console << a;
 /*
@@ -18,13 +18,13 @@ end;
 c = 99;
 console << 1.9;
 
-if 1 => { console << 5.5 };
+if 1 => { console << 15.5 };
 
-/*
-elseif 1 => { console << 100 };
 
-else => {c};
-*/
+elseif 1 => { console << 189 };
+
+//else => {console << c};
+
 
 
 

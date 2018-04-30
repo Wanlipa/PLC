@@ -7,7 +7,6 @@ public class Astat {
     int statementType;
     public static int assignment = 0;
     public static int assigntype = 1;
-//    public static int varDeclaration = 1;
     public static int print = 2;
     public static int ifthen = 3;
     public static int block = 4;
@@ -70,20 +69,6 @@ public class Astat {
         return this.assType;
     }
     
-    /*
-     * varDeclaration statement: Variable : Type
-     * 
-     */
-//    String assDec;
-//    Aexp assType;
-//    public static Astat varDeclaration(String Variable, Aexp type){
-//        Astat statement = new Astat();
-//        statement.statementType = varDeclaration;
-//        
-//        statement.assDec = Variable;
-//        statement.assType = type;
-//        return statement;
-//    }
     
     /*
      * print statement: print e
@@ -167,6 +152,8 @@ public class Astat {
             return "unknown";
         }
     }
+    
+
 
     public void execute() {
 
@@ -175,41 +162,38 @@ public class Astat {
             SymbolTable.setValuet(assVariable, value);
 //            SymbolTable.setValue(assVarType , assVariable, assExpr.getValue());
             
-//        } else if (statementType == varDeclaration) {
-//            SymbolTable.setType(assDec, assType.getType());
+
         }else if (statementType == assigntype){
             Atype value = null;
             value = (Atype) assExpr.getValue();
-                if ((assType == assExpr.getEType())
-                        || (value.type.equals("FLOAT") && assType == AexpType.FLOAT) 
-                        || (value.type.equals("BOOLEAN") && assType == AexpType.BOOLEAN)
-                        || (value.type.equals("INTEGER") && assType == AexpType.INTEGER)){
-                SymbolTable.setValuet(assVariable, value);
+                if (checkType(value)){
+                    SymbolTable.setValuet(assVariable, value);
                 }
                 else{
-                SymbolTable.setValuet(assVariable, value);    
+    
+                      System.out.println("Type Error");
+                      System.exit(0);
                 }
-//            SymbolTable.setValuet(assVariable, new Atype(assType.toString(), ));
             
         }else if (statementType == ifthen) {
 
-            Object val = ifcondition.getValue();
+            Atype val = (Atype)ifcondition.getValue();
             if (ifcondition.getErr()) {
                 System.out.println("Type Error");
                 System.exit(0);
             }
-            else if(val instanceof Integer){
-                if((Integer)val != 0){
+            else if(chType(val)){
+                if((Integer)val.value != 0){
                     ifbody.execute();
                 }
             }
-            else if(val instanceof Float){
-                if((Float)val != 0){
+            else if(chType(val)){
+                if((Float)val.value != 0){
                     ifbody.execute();
                 }
             }
-            else if(val instanceof Boolean){
-                if((Boolean)val){
+            else if(chType(val)){
+                if((Boolean)val.value){
                     ifbody.execute();
                 }
             }
@@ -226,7 +210,7 @@ public class Astat {
                     System.out.println("Type Error");   
                     System.exit(0);
                 }
-                else if(val.value instanceof Integer){
+                else if(chType(val)){
                     if((Integer)val.value != 0){
                         
                     whileBody.execute();
@@ -235,7 +219,7 @@ public class Astat {
                     break;
                     }
                 }
-                else if(val.value instanceof Float){
+                else if(chType(val)){
                     if((Float) val.value !=0){
                         whileBody.execute();
                     }
@@ -243,7 +227,7 @@ public class Astat {
                         break;
                     }
                 }
-                else if(val.value instanceof Boolean){
+                else if(chType(val)){
                     if((Boolean) val.value){
                         whileBody.execute();
                     }
@@ -262,9 +246,9 @@ public class Astat {
 
         } else if (statementType == print) {
 
-            System.out.println(printE.getValue());     
-            System.out.println(printE.getexp());
-            System.out.println(printE.getType());
+//            System.out.println(printE.getValue());     
+//            System.out.println(printE.getexp());
+//            System.out.println(printE.getType());
             System.out.println("-------------------");
             
             Atype val = (Atype)printE.getValue();
@@ -283,4 +267,26 @@ public class Astat {
             }
         }
     }
+    
+    public boolean checkType(Atype value) {
+        boolean checkT = false;
+        if ((assType == assExpr.getEType())
+                        || (value.type.equals("FLOAT") && assType == AexpType.FLOAT) 
+                        || (value.type.equals("BOOLEAN") && assType == AexpType.BOOLEAN)
+                        || (value.type.equals("INTEGER") && assType == AexpType.INTEGER)){
+            checkT = true;            
+        }        
+        return checkT;
+    }
+    
+    public boolean chType(Atype value){
+        boolean checkT = false;
+        if ((value.type.equals("FLOAT")) 
+                || (value.type.equals("BOOLEAN")) 
+                || (value.type.equals("INTEGER"))) {
+            checkT = true;            
+        }        
+        return checkT;
+    }
+    
 }
