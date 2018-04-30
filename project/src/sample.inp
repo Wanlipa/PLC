@@ -1,24 +1,26 @@
 
-a = 1.9;
+int a = 2;
+console << a - 1;
 console << a;
-
-
-b = 5;
-c = 99;
-
+/*
+int b = 5;
 
 
 while a =>
 begin 
     b = b * a;
-    a = a - 1;
 console << b;
-end;
+    a = a - 1;
 
+end;
+*/
+
+c = 99;
 console << 1.9;
-/*
+
 if 1 => { console << 5.5 };
 
+/*
 elseif 1 => { console << 100 };
 
 else => {c};

@@ -51,7 +51,9 @@ assignment      ::= ID:i EQ expr:e
                     {: RESULT = Astat.assignment(i,e); :}
                 ;
 
-
+assigntype      ::= TYPE:t ID:i EQ expr:e
+                    {: RESULT = Astat.assigntype(t.toString(),i,e); :}
+                ;
 
 
 while           ::= WHILE expr:e THEN statement:s 

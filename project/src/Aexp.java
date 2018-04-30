@@ -2,7 +2,7 @@ package src;
 
 public class Aexp {
 
-    private enum AexpType {
+    public enum AexpType {
         INTEGER,        
         FLOAT,
         ID,
@@ -17,7 +17,7 @@ public class Aexp {
     private String id;
     private Boolean bl;
     private char character;
-
+    private boolean error = false;
     
     
     private Args operands;
@@ -59,6 +59,14 @@ public class Aexp {
         operator = op;
     }
 
+    public AexpType getEType(){
+        return this.eType;
+    }
+    
+    public boolean getErr(){
+        return this.error;
+    }
+    
     public String getexp() {
 
         String s = "";
@@ -90,17 +98,17 @@ public class Aexp {
         return s;
     }
 
-    public int getValue() {
-        Integer val = 0;
+    public Object getValue() {
+        Object val = 0;
 //        Float fval = 0.0f;
         switch (this.eType) {
             case INTEGER:
                 // expression is a number
-                val = inum; break;
+                val = new Atype(inum, false, "INTEGER"); break;
             case FLOAT:
                 //expression is a number
-                val = (int)(Math.round(fnum)); break;
-//                fval = fnum; break;
+//                val = (int)(Math.round(fnum)); break;
+                val = new Atype(fnum, false, "FLOAT"); break;
 //                System.out.print(fnum + " is float can't calculate");
 //                System.exit(0);
             case ID:
@@ -112,25 +120,81 @@ public class Aexp {
                 }   break;
             case BOOLEAN:
                 //expression is a variable
-                val = SymbolTable.getValue(bl.toString());
-                if (val == null) {
-                    System.out.print(bl + " was not declared");
-                    System.exit(0);
-                }   break;
+                val = new Atype(bl, false, "BOOLEAN"); break;
             case EXP:
+                Atype fi = (Atype)operands.getfi().getValue();
+           
+                Atype se = (Atype)operands.getse().getValue();
+          
                 //expression is a math expression
                 switch (operator) {
                     case sym.PLUS:
-                        val = operands.getfi().getValue() + operands.getse().getValue();
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+                            val = new Atype(((Integer)fi.value) + ((Integer)se.value), false,"INTEGER");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){
+                                
+                            val = new Atype(new Float(fi.value.toString()) + new Float(se.value.toString()), false,"FLOAT");
+                        }
+                        else{
+                            val = new Atype(0, true,"");
+                            error = true;
+                        }
+//                        val = operands.getfi().getValue() + operands.getse().getValue();
                         break;
                     case sym.MINUS:
-                        val = operands.getfi().getValue() - operands.getse().getValue();
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+                            val = new Atype(((Integer)fi.value) - ((Integer)se.value),false,"INTEGER");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){
+                                
+                            val = new Atype(new Float(fi.value.toString()) - new Float(se.value.toString()), false,"FLOAT");
+                        }
+                        else{
+                            val = new Atype(0, true,"");
+                            error = true;
+                        }
+//                        val = operands.getfi().getValue() - operands.getse().getValue();
                         break;
                     case sym.TIMES:
-                        val = operands.getfi().getValue() * operands.getse().getValue();
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+                            val = new Atype(((Integer)fi.value) * ((Integer)se.value),false,"INTEGER");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){
+                                
+                            val = new Atype(new Float(fi.value.toString()) * new Float(se.value.toString()),false,"FLOAT");
+                        }
+                        else{
+                             val = new Atype(0, true,"");
+                            error = true;
+                        }
+//                        val = operands.getfi().getValue() * operands.getse().getValue();
                         break;
                     case sym.DIVIDE:
-                        val = operands.getfi().getValue() / operands.getse().getValue();
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+                            val = new Atype(((Integer)fi.value) / ((Integer)se.value),false,"INTEGER");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){
+                                
+                            val = new Atype(new Float(fi.value.toString()) / new Float(se.value.toString()),false,"FLOAT");
+                        }
+                        else{
+                                 val = new Atype(0, true,"");
+                            error = true;
+                        }
+//                        val = operands.getfi().getValue() / operands.getse().getValue();
                         break;
                     default:
                         break;

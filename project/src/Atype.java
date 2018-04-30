@@ -9,19 +9,22 @@ package src;
  *
  * @author wanlipa
  */
-public class Atype {
+public class Atype<V, Boolean> {
     
-//    private enum AtypeT {
-//        INTEGER,        
-//        FLOAT,
-//        ID,
-//        BOOLEAN
-//    }
-    
+    public final V value;
+    public final Boolean error;
     public String type;
-    
-    Atype (String type){
+    Atype (V value, Boolean error,String type){
+        this.value = value;
+        this.error = error;
         this.type = type;
     }
+    
+    public void setType(String type){
+        this.type = type;
+    }
+    
+ 
+    
     
 }

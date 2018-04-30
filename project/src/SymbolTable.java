@@ -4,15 +4,15 @@ import java.util.Hashtable;
 
 public class SymbolTable extends Hashtable<String,Object>{
     
-    public static class AddV {
-        public String id;
-        public int value;
-        
-        AddV(String id, int value){
-            this.id = id;
-            this.value = value;
-        }
-    }
+//    public static class AddV {
+//        public String id;
+//        public int value;
+//        
+//        AddV(String id, int value){
+//            this.id = id;
+//            this.value = value;
+//        }
+//    }
 
     
     static SymbolTable globalTable;
@@ -24,16 +24,16 @@ public class SymbolTable extends Hashtable<String,Object>{
         globalTable.put(id, value);
     }
     
-//    static void setValue(String type, String id, int value){
-//        globalTable.put(type, new AddV(id, value));
-//    }
+    static void setValuet(String id, Atype value){
+        globalTable.put(id, value);
+    }
     
     static void setValuef(String id, float value){
         globalTable.put(id,value);
     }
 
-    static Integer getValue(String id){
-        return (Integer) globalTable.get(id);
+    static Atype getValue(String id){
+        return (Atype) globalTable.get(id);
     }
     
     static Float getValuef(String id){
