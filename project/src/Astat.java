@@ -60,7 +60,6 @@ public class Astat {
          else if(type.equals("char")){
              FullType = "CHAR";
          }
-         System.out.println("1111111111111");
         Astat statement = new Astat();
         statement.statementType = assigntype;
         statement.assType = AexpType.valueOf(FullType);
@@ -109,26 +108,7 @@ public class Astat {
     /*
      * print statement: print e
      */
-    // Aexp printE;
-    Atype printEval;
     ArrayList<Aexp> printEvalList;
-
-//    public static Astat print(Aexp expr) {
-//
-//        Astat statement = new Astat();
-//        statement.statementType = print;
-//        statement.printE = expr;
-//        return statement;
-//
-//    }
-    
-//    public static Astat print(Atype p) {
-//        Astat statement = new Astat();
-//        statement.statementType = print;
-//        statement.printEval = p;
-//        return statement;
-//
-//    }
     
     public static Astat print(ArrayList<Aexp> p) {
         Astat statement = new Astat();
@@ -284,17 +264,17 @@ public class Astat {
                 System.out.println("Type Error");
                 System.exit(0);
             }
-            else if(chType(val)){
+            else if(val.type.equals("INTEGER")){
                 if((Integer)val.value != 0){
                     ifbody.execute();
                 }
             }
-            else if(chType(val)){
+            else if(val.type.equals("FLOAT")){
                 if((Float)val.value != 0){
                     ifbody.execute();
                 }
             }
-            else if(chType(val)){
+            else if(val.type.equals("BOOLEAN")){
                 if((Boolean)val.value){
                     ifbody.execute();
                 }
@@ -312,7 +292,7 @@ public class Astat {
                     System.out.println("Type Error");   
                     System.exit(0);
                 }
-                else if(chType(val)){
+                else if(val.type.equals("INTEGER")){
                     if((Integer)val.value != 0){
                         
                     whileBody.execute();
@@ -321,7 +301,7 @@ public class Astat {
                     break;
                     }
                 }
-                else if(chType(val)){
+                else if(val.type.equals("FLOAT")){
                     if((Float) val.value !=0){
                         whileBody.execute();
                     }
@@ -329,7 +309,7 @@ public class Astat {
                         break;
                     }
                 }
-                else if(chType(val)){
+                else if(val.type.equals("BOOLEAN")){
                     if((Boolean) val.value){
                         whileBody.execute();
                     }
@@ -347,24 +327,6 @@ public class Astat {
             }
 
         } 
-//        else if (statementType == print) {
-//
-////            System.out.println(printE.getValue());     
-////            System.out.println(printE.getexp());
-////            System.out.println(printE.getType());
-//            System.out.println("-------------------");
-//            
-//            Atype val = (Atype)printE.getValue();
-//            
-//            if(printE.getErr()){
-//                System.out.println("Type Error");
-//                System.exit(0);
-//            }
-//            else{
-//            System.out.println(val.value);
-//            }
-//
-//        }
         else if (statementType == print){
             System.out.println("-------------------");
             String out = "";
@@ -400,18 +362,6 @@ public class Astat {
         }        
         return checkT;
     }
-    
-    public boolean chType(Atype value){
-        boolean checkT = false;
-        if ((value.type.equals("FLOAT")) 
-                || (value.type.equals("BOOLEAN")) 
-                || (value.type.equals("INTEGER"))) {
-            checkT = true;            
-        }        
-        return checkT;
-    }
-
-        
-        
+           
     
 }

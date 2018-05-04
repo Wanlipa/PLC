@@ -35,36 +35,5 @@ public class Atype<V, Boolean> {
     public boolean getErr(){
         return this.error;
     }
-    
-    
-    public static Atype createConcatPrintString(Atype p, Aexp expr){
-        System.out.println("HEllo world");
-
-        if (p.type == "PRINTSTRING"){
-            Atype val = (Atype)expr.getValue();
-            String eval_str = p.value + val.value.toString();
-            return new Atype(eval_str, false , "PRINTSTRING");
-        }
-        else{
-            return new Atype("", true, "PRINTSTRING");
-        }
-        
-    }
-    
-    
-    public static Atype createPrintEval(Aexp expr){
-        // Hacking, evaluate on the fly
-        String eval_str = "";
-        System.out.println("Create print Eval");
-        Atype val = (Atype)expr.getValue();
-         System.out.println("22222222222222222222222222");
-        eval_str = val.value.toString();
-        System.out.println(eval_str);
-        Atype out = new Atype(eval_str, false, "PRINTSTRING");
-        return out;
-    }
-    
- 
-    
-
+   
 }

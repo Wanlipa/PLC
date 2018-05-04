@@ -132,6 +132,7 @@ char = \'[A-Za-z_0-9]\'
     "begin"            { return symbol(sym.BEGIN); }
     "end"              { return symbol(sym.END); }
     "=="               { return symbol(sym.EQEQ); }
+    "<>"               { return symbol(sym.NEQ); }
     ">"                { return symbol(sym.GT); }
     "<"                { return symbol(sym.LT); }
     "<="               { return symbol(sym.LTEQ); }
@@ -147,15 +148,15 @@ char = \'[A-Za-z_0-9]\'
 
 
 
-    {int}      { return symbol(sym.INUM, new Integer(yytext())); }
+    {int}      { return symbol(sym.IVAL, new Integer(yytext())); }
 
-    {float}    { return symbol(sym.FNUM, new Float(yytext())); }
+    {float}    { return symbol(sym.FVAL, new Float(yytext())); }
 
-    {boolean}  { return symbol(sym.BL, new Boolean (yytext()));}
+    {boolean}  { return symbol(sym.BLVAL, new Boolean (yytext()));}
 
     {id}       { return symbol(sym.ID, yytext());}    
 
-    {char}     { return symbol(sym.CHAR, yytext());}
+    {char}     { return symbol(sym.CHARVAL, yytext());}
 
 
 

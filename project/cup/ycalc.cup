@@ -4,14 +4,14 @@ import java_cup.runtime.*;
 
 
 terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, EQ, LBRACE, RBRACE, LSHIFT,
-                   EQEQ, GT, LT, LTEQ, GTEQ, AND, OR, TYPE,
+                   EQEQ,NEQ, GT, LT, LTEQ, GTEQ, AND, OR, TYPE,
                    IF, ELSEIF, ELSE, THEN, CONSOLE, WHILE,  DO, BEGIN,  END;
 
-terminal Integer   INUM;
-terminal Float     FNUM;
+terminal Integer   IVAL;
+terminal Float     FVAL;
 terminal String    ID;
-terminal Boolean   BL;
-terminal char      CHAR;
+terminal Boolean   BLVAL;
+terminal char      CHARVAL;
 
 non terminal Object             program;
 non terminal Astat              statement, assignment, ifthen ,console , while, statement_part, assigntype;
@@ -19,7 +19,10 @@ non terminal Lstat              statement_list;
 non terminal ArrayList<Aexp>    print_val;
 non terminal Aexp               expr, factor, group;
 
-
+/* Precedences */
+precedence left EQEQ, NEQ, GT, LT, LTEQ, GTEQ, AND, OR;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
 
 
 
@@ -83,7 +86,9 @@ ifthen          ::= IF expr:e THEN LBRACE statement:s RBRACE
                     {: RESULT = Astat.ifthen(e,s); :}
                 ;
 
-expr            ::= expr:e PLUS group:g
+expr            ::= expr:e EQEQ group:g
+                    {: RESULT = new Aexp(new Args(e,g), sym.EQEQ); :}
+                | expr:e PLUS group:g
                     {: RESULT = new Aexp(new Args(e,g), sym.PLUS); :}
                 | expr:e MINUS group:g
                     {: RESULT = new Aexp(new Args(e,g), sym.MINUS); :}
@@ -99,13 +104,13 @@ group            ::= group:g TIMES factor:f
 
 factor          ::= LPAREN expr:e RPAREN
                     {: RESULT = e; :}
-                | INUM:n
+                | IVAL:n
                     {: RESULT = new Aexp(n); :}
-                | FNUM:f
+                | FVAL:f
                     {: RESULT = new Aexp(f); :}
                 | ID:i
                     {: RESULT = new Aexp(i); :}
-                | BL:b
+                | BLVAL:b
                     {: RESULT = new Aexp(b); :}
-                | CHAR:c
+                | CHARVAL:c
                     {: RESULT = new Aexp(c); :};

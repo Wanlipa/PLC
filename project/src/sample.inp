@@ -1,35 +1,22 @@
+int a = 5;
+int b;
 
-int a = 3 + 1;
-console << a << 2 +1 << 1.0/3.0 + 5.0 << true;
-
+console << a + 2 <<  b << 3.1;
 
 /*
-int a = 2 + 1;
-float b = 5.5 + 0.1;
-boolean c = true;
-//console << a - 1;
-console << a;
-console << b;
-console << c;
 
 int b = 5;
-
 
 while a =>
 begin 
     b = b * a;
-console << b;
     a = a - 1;
-
+console << b;
 end;
-
-
-c = 99;
-console << 1.9;
 
 if 1 => { console << 15.5 };
 
-elseif 1 => { console << 189 };
+elseif 0 => { console << 189 };
 
 //else => {console << c};
 */
