@@ -1,17 +1,11 @@
+int a = 5;
+int b;
 
-int a = 2+1;
-float b = 5.5 + 0.1 + 0.9 + ( 1.0 * 5.0);
-boolean c = true;
-console << a * 10;
-//console << a;
-console << b;
-console << c;
+console << a + 2 <<  b << 3.1;
 
-boolean e = (1 == 1);
-
-console << e;
 
 /*
+
 int b = 5;
 
 while a =>

@@ -12,19 +12,28 @@ package src;
 public class Atype<V, Boolean> {
     
     public final V value;
-    public final Boolean error;
+    // public final Boolean error;
+    public final boolean error;
     public String type;
-    Atype (V value, Boolean error,String type){
+//    Atype (V value, Boolean error,String type){
+//        this.value = value;
+//        this.error = error;
+//        this.type = type;
+//    }
+    
+       Atype (V value, boolean error,String type){
         this.value = value;
         this.error = error;
         this.type = type;
     }
+       
     
     public void setType(String type){
         this.type = type;
     }
     
- 
-    
-    
+    public boolean getErr(){
+        return this.error;
+    }
+   
 }

@@ -1,4 +1,5 @@
 package src;
+import java.util.*;
 import java_cup.runtime.*;
 
 
@@ -15,12 +16,14 @@ terminal char      CHARVAL;
 non terminal Object             program;
 non terminal Astat              statement, assignment, ifthen ,console , while, statement_part, assigntype;
 non terminal Lstat              statement_list;
+non terminal ArrayList<Aexp>    print_val;
 non terminal Aexp               expr, factor, group;
 
 /* Precedences */
 precedence left EQEQ, NEQ, GT, LT, LTEQ, GTEQ, AND, OR;
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
+
 
 
 program         ::= statement_list:s
@@ -55,7 +58,9 @@ assignment      ::= ID:i EQ expr:e
                 ;
 
 assigntype      ::= TYPE:t ID:i EQ expr:e
-                    {: RESULT = Astat.assigntype(t.toString(),i,e); :}
+                    {: RESULT = Astat.assigntype(t.toString(),i,e); :} 
+                |   TYPE:t ID:i  
+                    {: RESULT = Astat.assigntype(t.toString(),i); :}
                 ;
 
 
@@ -63,16 +68,22 @@ while           ::= WHILE expr:e THEN statement:s
                     {: RESULT = Astat.whileloop(e,s); :}
                 ;
 
-console         ::= CONSOLE LSHIFT expr:e
-                    {: RESULT = Astat.print(e); :}
+
+
+console         ::= CONSOLE LSHIFT print_val:p
+                    {: RESULT = Astat.print(p); :} 
+                ;
+
+print_val       ::= print_val:p LSHIFT expr:e
+                    {: RESULT = Astat.appendPrintArrayList(p,e); :}
+                | expr:e
+                    {: RESULT = Astat.createPrintArrayList(e); :}
                 ;
 
 ifthen          ::= IF expr:e THEN LBRACE statement:s RBRACE
                     {: RESULT = Astat.ifthen(e,s); :}
                 | ELSEIF expr:e THEN LBRACE statement:s RBRACE
                     {: RESULT = Astat.ifthen(e,s); :}
-                | ELSE THEN LBRACE expr:e RBRACE
-                    {: RESULT = Astat.print(e); :}
                 ;
 
 expr            ::= expr:e EQEQ group:g
