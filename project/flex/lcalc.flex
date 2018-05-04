@@ -125,7 +125,7 @@ char = \'[A-Za-z_0-9]\'
     "elseif"           { return symbol(sym.ELSEIF); }
     "else"             { return symbol(sym.ELSE); }
     "=>"               { return symbol(sym.THEN); }
-    "console"           { return symbol(sym.CONSOLE); }
+    "console"          { return symbol(sym.CONSOLE); }
     "<<"               { return symbol(sym.LSHIFT); }
     "while"            { return symbol(sym.WHILE); }
     "do"               { return symbol(sym.DO); }

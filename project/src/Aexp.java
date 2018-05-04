@@ -116,6 +116,8 @@ public class Aexp {
             case ID:
                 //expression is a variable
 //                val = new Atype(id, false, "ID"); break;
+                System.out.println("HEREEEE");
+                System.out.println(id);
                 val = SymbolTable.getValue(id);
                 if (val == null) {
                     System.out.print(id + " was not declared");

@@ -1,4 +1,9 @@
 
+int a = 3 + 1;
+console << a << 2 +1 << 1.0/3.0 + 5.0 << true;
+
+
+/*
 int a = 2 + 1;
 float b = 5.5 + 0.1;
 boolean c = true;
@@ -7,7 +12,6 @@ console << a;
 console << b;
 console << c;
 
-/*
 int b = 5;
 
 
