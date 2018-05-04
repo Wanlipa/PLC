@@ -200,7 +200,12 @@ public class Aexp {
                         }
                         else if((fi.value instanceof Integer && se.value instanceof Integer) ){
 //                            val = new Atype(((Integer)fi.value) / ((Integer)se.value),false,"INTEGER");
-                              if ((Integer)fi.value == (Integer)se.value) {
+                              System.out.println((Integer)fi.value+"|"+(Integer)se.value);
+                              System.out.println(relop);
+                              int f = (Integer)fi.value;
+                              int s = (Integer)se.value;
+                              if (f == s) {
+                                  System.out.println("world");
                                   relop = true;
                               }
                               val = new Atype(relop,false,"BOOLEAN");
