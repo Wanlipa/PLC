@@ -17,7 +17,7 @@ public class Astat {
     public static int funDeclaration = 6;
     public static int returnStatement = 7;
     public static int ifelse = 8;
-
+    
     /*
      * assignment statement: variable = expr
      * adding : floating , boolean
@@ -26,7 +26,9 @@ public class Astat {
     public String assVarType;
     public String assVariable;
     public Aexp assExpr;
-    
+    public Aexp assArrayIndexExpr;
+    public AexpType assArrayType;
+    public Integer assArraySize;
     
     public static Astat assignment(String Variable, Aexp expr) {
 //    public static Astat assignment(String type, String Variable, Aexp expr) {
@@ -39,6 +41,15 @@ public class Astat {
 
         return statement;
 
+    }
+    
+    public static Astat assignmentArray(String Variable, Aexp index_expr, Aexp val_expr){
+        Astat statement = new Astat();
+        statement.statementType = assignment;
+        statement.assVariable = Variable;
+        statement.assArrayIndexExpr = index_expr;
+        statement.assExpr = val_expr;
+        return statement;
     }
     
     /*
@@ -72,8 +83,8 @@ public class Astat {
       For null declaration assignment: i.e. int a;
     */
     
-        public static Astat assigntype(String type, String Variable) {
-            System.out.println("Hello World!!!!");
+    public static Astat assigntype(String type, String Variable) {
+         
          String FullType = "";
          if(type.equals("boolean")){
              FullType = "BOOLEAN";
@@ -97,6 +108,31 @@ public class Astat {
         statement.assVariable = Variable;
         statement.assExpr = null;
 
+        return statement;
+    }
+    
+    public static Astat assignTypeArray(String t1, String t2, int arr_size, String Variable){
+        Astat statement = new Astat();
+        if ((t1.toUpperCase().equals("ARRAY") )){
+            statement.statementType = assigntype;
+            statement.assType = AexpType.valueOf("ARRAY"); // conver string to enum
+            statement.assVariable = Variable;
+            String arr_type = "";
+            if (t2.equals("int")){
+                arr_type = "INTEGER";
+            }else{
+                arr_type = t2.toUpperCase();
+            }
+            statement.assArrayType = AexpType.valueOf( arr_type );
+            statement.assArraySize = new Integer(arr_size);
+            statement.assExpr = null;
+        
+        } else{
+            System.out.println("Type Error!");
+            throw new IllegalArgumentException("Type Error for id: " + Variable);
+        }
+        
+        
         return statement;
     }
       
@@ -209,8 +245,83 @@ public class Astat {
 
         if (statementType == assignment) {
             
-            Atype value = (Atype)assExpr.getValue();
-            SymbolTable.setValue(assVariable, value);
+            if (assArrayIndexExpr != null){
+                // Array Assignment
+                Atype id = SymbolTable.getValue(assVariable);
+                if (! id.type.equals("ARRAY") ){
+                    System.out.println("Exception: " + "Non-array type is not accessible by index");
+                    System.exit(-1);
+                }
+                
+                Atype idx_type = (Atype)assArrayIndexExpr.getValue();
+               
+                if (!idx_type.type.equals("INTEGER") ){
+                    System.out.println("Exception: " + "Array index must be int");
+                    System.exit(-1);
+                }
+                
+                if (idx_type.getErr()){
+                    System.out.println("Exception: " + "Eval Type Error");
+                    System.exit(-1);
+                }
+                
+                Integer idx = (Integer)idx_type.value; 
+                Atype value = (Atype)assExpr.getValue();
+                //System.out.println("Array CLASS NAME: " + id.value.getClass().getSimpleName());
+                String id_type =  id.value.getClass().getSimpleName();
+                String array_val_type = id_type.substring(0, id_type.length() - 2 ).toUpperCase(); // should get something like FLOAT, INTEGER, BOOLEAN
+                // System.out.println("Array Type:" + array_val_type);
+                // System.out.println("Value Type:" + value.type);
+                if(array_val_type.equals(value.type)){
+                  if (array_val_type.equals("INTEGER")){
+                      Integer[] tmp = (Integer[]) id.value;
+                      tmp[idx] = (Integer) value.value;
+                      id.value = tmp;
+                      SymbolTable.setValue(assVariable, id);
+                  }
+                  else if (array_val_type.equals("BOOLEAN")){
+                      Boolean[] tmp = (Boolean[]) id.value;
+                      tmp[idx] = (Boolean) value.value;
+                      id.value = tmp;
+                      SymbolTable.setValue(assVariable, id);
+                  }
+                  else if (array_val_type.equals("FLOAT")) {
+                      Float[] tmp = (Float[]) id.value;
+                      tmp[idx] = (Float) value.value;
+                      id.value = tmp;
+                      SymbolTable.setValue(assVariable, id);
+                  }
+                  else if (array_val_type.equals("CHAR")) {
+                      char[] tmp = (char[]) id.value;
+                      tmp[idx] = (char) value.value;
+                      id.value = tmp;
+                      SymbolTable.setValue(assVariable, id);
+                  }
+                  else {
+                    System.out.println("Exception: " + "Comipler Error:Array Type check");
+                    System.exit(-1);
+                  }
+                }
+                else{
+                    System.out.println("Exception: " + "Assignment Type Error!");
+                    System.exit(-1);
+                }
+               
+                
+            }else{
+                
+                Atype value = (Atype)assExpr.getValue();
+                Atype id = SymbolTable.getValue(assVariable);
+                if (value.typeEquals(id)){
+                 SymbolTable.setValue(assVariable, value);
+                } else{
+                    System.out.println("Exception: " + "Assignment Type Error!");
+                    System.exit(-1);
+                }
+               
+               
+            }
+            
 //            SymbolTable.setValue(assVarType , assVariable, assExpr.getValue());
             
 
@@ -221,12 +332,11 @@ public class Astat {
                 Atype value = null;
                 value = (Atype) assExpr.getValue();
                 if (this.checkType(value)){
-                    System.out.println("Setting value of : " + assVariable + " with value " + value.value.toString());
                     SymbolTable.setValue(assVariable, value);
                 }
                 else{
     
-                      System.out.println("Type Error");
+                      System.out.println("Exception: " + "Assignment Type Error");
                       System.exit(0);
                 }
             }
@@ -240,13 +350,32 @@ public class Astat {
                         break;
                     case INTEGER:
                         default_value = new Atype(new Integer(0), false, "INTEGER");
-                        
                         SymbolTable.setValue(assVariable, default_value);
                         break;
               
                     case FLOAT:
                         default_value = new Atype(new Float(0.0), false, "FLOAT");
                         SymbolTable.setValue(assVariable, default_value);
+                        break;
+                    case ARRAY:
+                        //default_value = new Atype(new Array(0.0), false, "ARRRAY");
+                        switch(assArrayType) {
+                            case BOOLEAN:
+                                default_value = new Atype(new Boolean[assArraySize], false, "ARRAY");
+                                SymbolTable.setValue(assVariable, default_value);
+                                break;
+                            case INTEGER:
+                                System.out.println("Creating Array type INT SIZE : " + assArraySize.toString());
+                                default_value = new Atype(new Integer[assArraySize], false, "ARRAY");
+                                SymbolTable.setValue(assVariable, default_value);
+                                break;
+                            case FLOAT:
+                                default_value = new Atype(new Float[assArraySize], false, "ARRAY");
+                                SymbolTable.setValue(assVariable, default_value);
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     default:
                         System.out.println("Type NOT EXIST!");
@@ -362,6 +491,5 @@ public class Astat {
         }        
         return checkT;
     }
-           
     
 }

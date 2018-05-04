@@ -5,7 +5,7 @@ import java_cup.runtime.*;
 
 terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, EQ, LBRACE, RBRACE, LSHIFT,
                    EQEQ,NEQ, GT, LT, LTEQ, GTEQ, AND, OR, TYPE,
-                   IF, ELSEIF, ELSE, THEN, CONSOLE, WHILE,  DO, BEGIN,  END;
+                   IF, ELSEIF, ELSE, THEN, CONSOLE, WHILE,  DO, BEGIN,  END, COMMA;
 
 terminal Integer   IVAL;
 terminal Float     FVAL;
@@ -55,12 +55,16 @@ statement       ::= assignment:s
 
 assignment      ::= ID:i EQ expr:e
                     {: RESULT = Astat.assignment(i,e); :}
+                |   ID:i LT expr:e_index GT EQ expr:e_val
+                    {: RESULT = Astat.assignmentArray(i,e_index, e_val); :}
                 ;
 
 assigntype      ::= TYPE:t ID:i EQ expr:e
                     {: RESULT = Astat.assigntype(t.toString(),i,e); :} 
                 |   TYPE:t ID:i  
                     {: RESULT = Astat.assigntype(t.toString(),i); :}
+                | TYPE:t1 LT TYPE:t2 COMMA IVAL:size GT ID:i  
+                    {: RESULT = Astat.assignTypeArray(t1.toString(),t2.toString(), size, i); :}
                 ;
 
 
@@ -108,9 +112,17 @@ factor          ::= LPAREN expr:e RPAREN
                     {: RESULT = new Aexp(n); :}
                 | FVAL:f
                     {: RESULT = new Aexp(f); :}
+                | ID:id LT ID:idx_id GT
+                    {: 
+                      RESULT = new Aexp(id, idx_id); 
+                    :}
                 | ID:i
                     {: RESULT = new Aexp(i); :}
                 | BLVAL:b
                     {: RESULT = new Aexp(b); :}
                 | CHARVAL:c
-                    {: RESULT = new Aexp(c); :};
+                    {: RESULT = new Aexp(c); :}
+                | ID:id LT IVAL:idx_num GT
+                    {: RESULT = new Aexp(id, idx_num); :}
+                
+                ;

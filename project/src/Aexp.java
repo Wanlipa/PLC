@@ -7,8 +7,10 @@ public class Aexp {
         INTEGER,        
         FLOAT,
         ID,
+        IDARRAY,
         BOOLEAN,
         CHAR,
+        ARRAY,
         EXP
     }
     
@@ -16,6 +18,8 @@ public class Aexp {
     private Integer inum;
     private Float fnum;
     private String id;
+    private Integer idx_num; // for array
+    private String idx_id; // for array
     private Boolean bl = null;
     private char character;
     private boolean error = false;
@@ -53,7 +57,19 @@ public class Aexp {
         this.character = x;
     }
     
-
+    Aexp(String x, Integer idx){
+        eType = AexpType.IDARRAY;
+        id = x;
+        idx_num = idx;
+    }
+    
+    Aexp(String x, String idd){
+        // System.out.println("I SHOULD BE HERE: " + x + ", " + id);
+        eType = AexpType.IDARRAY;
+        id = x;
+        idx_id = idd;
+    }
+    
     Aexp(Args x, int op) {
         eType = AexpType.EXP;
         operands = x;
@@ -120,7 +136,62 @@ public class Aexp {
                 if (val == null) {
                     System.out.print(id + " was not declared");
                     System.exit(0);
-                }   break;
+                }   
+                
+                break;
+                
+            case IDARRAY:
+                //System.out.println("I AM HEEREERERERE11");
+                Atype id_array = SymbolTable.getValue(id);
+                //System.out.println("I AM HEEREERERERE22");
+                if (id_array == null){
+                    System.out.println("Exception: " + id + " was not declared");
+                    System.exit(0);
+                }
+                if (! id_array.type.equals("ARRAY")) {
+                    System.out.println("Exception: " + "Non-array type is not accessible by index");
+                    System.exit(0);
+                }
+                
+                String val_type = id_array.getArrayValueType();
+                Integer index = null;
+                
+                if (idx_num != null){
+                  // Static index 
+                  index = idx_num;
+                }
+                else{
+                  // Find index val by ID
+                  //System.out.println("I AM HEEREERERERE");
+                  Atype idx_val = SymbolTable.getValue(idx_id);
+                  
+                    if (idx_val == null){
+                        System.out.println("Exception: " + idx_id + " was not declared");
+                        System.exit(0);
+                    }
+                    
+                    if (! idx_val.type.equals("INTEGER")) {
+                        System.out.println("Exception: " + "Array index must be int");
+                        System.exit(0);
+                    }
+                  index = (Integer) idx_val.value;
+                }
+                  
+                
+                if (val_type.equals("INTEGER")){
+                    Integer[] tmp = (Integer[]) id_array.value;                      
+                    val = new Atype(new Integer(tmp[index]), false, "INTEGER");
+                }
+                else if (val_type.equals("FLOAT")){
+                    Float[] tmp = (Float[]) id_array.value;                      
+                    val = new Atype(new Float(tmp[index]), false, "FLOAT");              
+                }
+                else if (val_type.equals("BOOLEAN")){
+                    Boolean[] tmp = (Boolean[]) id_array.value;                      
+                    val = new Atype(new Boolean(tmp[index]), false, "BOOLEAN"); 
+                }
+                
+                break;
             
             case EXP:
                 Atype fi = (Atype)operands.getfi().getValue();           

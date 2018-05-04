@@ -3,6 +3,13 @@ int b;
 
 console << a + 2 <<  b << 3.1;
 
+array <float,20> kk;
+
+kk<5> = 10.0;
+kk<3> = 2.0;
+int idx = 3;
+console << idx;
+console << kk<3>;
 /*
 
 int b = 5;

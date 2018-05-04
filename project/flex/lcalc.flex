@@ -108,6 +108,7 @@ char = \'[A-Za-z_0-9]\'
 
     /* Return the token SEMI declared in the class sym that was found. */
     ";"                { return symbol(sym.SEMI); }
+    ","                { return symbol(sym.COMMA); }
 
 
     /* Print the token found that was declared in the class sym and then
@@ -153,10 +154,12 @@ char = \'[A-Za-z_0-9]\'
     {float}    { return symbol(sym.FVAL, new Float(yytext())); }
 
     {boolean}  { return symbol(sym.BLVAL, new Boolean (yytext()));}
-
+    
+    {char}     { return symbol(sym.CHARVAL, yytext());}
+    
     {id}       { return symbol(sym.ID, yytext());}    
 
-    {char}     { return symbol(sym.CHARVAL, yytext());}
+    
 
 
 

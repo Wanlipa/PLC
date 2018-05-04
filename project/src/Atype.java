@@ -11,7 +11,8 @@ package src;
  */
 public class Atype<V, Boolean> {
     
-    public final V value;
+    // public final V value;
+    public V value;
     // public final Boolean error;
     public final boolean error;
     public String type;
@@ -34,6 +35,20 @@ public class Atype<V, Boolean> {
     
     public boolean getErr(){
         return this.error;
+    }
+    
+    public boolean typeEquals(Atype x){
+        return (this.type.equals(x.type));
+    }
+    
+    public String getArrayValueType(){
+        if (this.type.equals("ARRAY") ){
+            String tmp = this.value.getClass().getSimpleName();
+            return tmp.substring(0, tmp.length() - 2 ).toUpperCase(); // should get something like FLOAT, INTEGER, BOOLEAN
+        }
+        else{
+            return "";
+        }
     }
    
 }
