@@ -20,31 +20,31 @@ public class SymbolTable extends Hashtable<String,Object>{
     static {globalTable = new SymbolTable();}
 
 
-    static void setValue(String id, int value){
+//    static void setValue(String id, int value){
+//        globalTable.put(id, value);
+//    }
+    
+    static void setValue(String id, Atype value){
         globalTable.put(id, value);
     }
     
-    static void setValuet(String id, Atype value){
-        globalTable.put(id, value);
-    }
-    
-    static void setValuef(String id, float value){
-        globalTable.put(id,value);
-    }
+//    static void setValuef(String id, float value){
+//        globalTable.put(id,value);
+//    }
 
     static Atype getValue(String id){
         return (Atype) globalTable.get(id);
     }
     
-    static Float getValuef(String id){
-        return (Float) globalTable.get(id);
-    }
-    
-    static void setType(String type, String id){
-        globalTable.put(type, id);
-    }
-    
-    static String getType(String type){
-        return (String) globalTable.get(type);
-    }
+//    static Float getValuef(String id){
+//        return (Float) globalTable.get(id);
+//    }
+//    
+//    static void setType(String type, String id){
+//        globalTable.put(type, id);
+//    }
+//    
+//    static String getType(String type){
+//        return (String) globalTable.get(type);
+//    }
 }

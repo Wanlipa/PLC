@@ -1,7 +1,12 @@
 
-int a = 3;
-console << a - 1;
+int a = 2 + 1;
+float b = 5.5 + 0.1;
+boolean c = true;
+//console << a - 1;
 console << a;
+console << b;
+console << c;
+
 /*
 int b = 5;
 
@@ -13,18 +18,17 @@ console << b;
     a = a - 1;
 
 end;
-*/
+
 
 c = 99;
 console << 1.9;
 
 if 1 => { console << 15.5 };
 
-
 elseif 1 => { console << 189 };
 
 //else => {console << c};
-
+*/
 
 
 

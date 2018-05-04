@@ -88,7 +88,7 @@ float = (0\.[0-9]+) | ([1-9][0-9]*\.[0-9]+)
     [^\r\n\"\\]
 */
 id = [A-Za-z_][A-Za-z_0-9]*
-boolean = [true] | [false]
+boolean = true | false
 char = \'[A-Za-z_0-9]\'
 
 
@@ -142,6 +142,7 @@ char = \'[A-Za-z_0-9]\'
     "float"            { return symbol(sym.TYPE, yytext());}
     "boolean"          { return symbol(sym.TYPE, yytext());}
     "char"             { return symbol(sym.TYPE, yytext());}
+    "array"             { return symbol(sym.TYPE, yytext());}
 
 
 
@@ -150,9 +151,9 @@ char = \'[A-Za-z_0-9]\'
 
     {float}    { return symbol(sym.FNUM, new Float(yytext())); }
 
-    {id}       { return symbol(sym.ID, yytext());}
+    {boolean}  { return symbol(sym.BL, new Boolean (yytext()));}
 
-    {boolean}  { return symbol(sym.BL, yytext());}
+    {id}       { return symbol(sym.ID, yytext());}    
 
     {char}     { return symbol(sym.CHAR, yytext());}
 

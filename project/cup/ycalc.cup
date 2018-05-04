@@ -97,5 +97,4 @@ factor          ::= LPAREN expr:e RPAREN
                 | BL:b
                     {: RESULT = new Aexp(b); :}
                 | CHAR:c
-                    {: RESULT = new Aexp(c); :}
-                ;
+                    {: RESULT = new Aexp(c); :};

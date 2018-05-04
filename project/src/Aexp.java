@@ -1,5 +1,6 @@
 package src;
 
+
 public class Aexp {
 
     public enum AexpType {
@@ -15,7 +16,7 @@ public class Aexp {
     private Integer inum;
     private Float fnum;
     private String id;
-    private Boolean bl;
+    private Boolean bl = null;
     private char character;
     private boolean error = false;
     
@@ -99,31 +100,30 @@ public class Aexp {
     }
 
     public Object getValue() {
+
         Object val = 0;
-//        Float fval = 0.0f;
         switch (this.eType) {
             case INTEGER:
                 // expression is a number
                 val = new Atype(inum, false, "INTEGER"); break;
             case FLOAT:
                 //expression is a number
-//                val = (int)(Math.round(fnum)); break;
                 val = new Atype(fnum, false, "FLOAT"); break;
-//                System.out.print(fnum + " is float can't calculate");
-//                System.exit(0);
+            case BOOLEAN:
+                //expression is a variable
+                val = new Atype(bl, false, "BOOLEAN"); break;    
+                
             case ID:
                 //expression is a variable
+//                val = new Atype(id, false, "ID"); break;
                 val = SymbolTable.getValue(id);
                 if (val == null) {
                     System.out.print(id + " was not declared");
                     System.exit(0);
                 }   break;
-            case BOOLEAN:
-                //expression is a variable
-                val = new Atype(bl, false, "BOOLEAN"); break;
+            
             case EXP:
-                Atype fi = (Atype)operands.getfi().getValue();
-           
+                Atype fi = (Atype)operands.getfi().getValue();           
                 Atype se = (Atype)operands.getse().getValue();
           
                 //expression is a math expression
@@ -132,11 +132,11 @@ public class Aexp {
                         if(operands.getfi().error || operands.getse().error ){
                             error = true;
                         }
+//                        else if((check.chType(fi)) && (check.chType(se)) ){
                         else if((fi.value instanceof Integer && se.value instanceof Integer) ){
                             val = new Atype(((Integer)fi.value) + ((Integer)se.value), false,"INTEGER");
                         }
-                        else if(fi.value instanceof Float && se.value instanceof Float){
-                                
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
                             val = new Atype(new Float(fi.value.toString()) + new Float(se.value.toString()), false,"FLOAT");
                         }
                         else{
@@ -152,8 +152,7 @@ public class Aexp {
                         else if((fi.value instanceof Integer && se.value instanceof Integer) ){
                             val = new Atype(((Integer)fi.value) - ((Integer)se.value),false,"INTEGER");
                         }
-                        else if(fi.value instanceof Float && se.value instanceof Float){
-                                
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
                             val = new Atype(new Float(fi.value.toString()) - new Float(se.value.toString()), false,"FLOAT");
                         }
                         else{
@@ -169,8 +168,7 @@ public class Aexp {
                         else if((fi.value instanceof Integer && se.value instanceof Integer) ){
                             val = new Atype(((Integer)fi.value) * ((Integer)se.value),false,"INTEGER");
                         }
-                        else if(fi.value instanceof Float && se.value instanceof Float){
-                                
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
                             val = new Atype(new Float(fi.value.toString()) * new Float(se.value.toString()),false,"FLOAT");
                         }
                         else{
@@ -186,8 +184,7 @@ public class Aexp {
                         else if((fi.value instanceof Integer && se.value instanceof Integer) ){
                             val = new Atype(((Integer)fi.value) / ((Integer)se.value),false,"INTEGER");
                         }
-                        else if(fi.value instanceof Float && se.value instanceof Float){
-                                
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
                             val = new Atype(new Float(fi.value.toString()) / new Float(se.value.toString()),false,"FLOAT");
                         }
                         else{
@@ -204,62 +201,6 @@ public class Aexp {
         return val;
     }
     
-    public float getValuef() {
-        Float fval = 0.0f;
-        switch (this.eType) {
-            case INTEGER:
-                // expression is a number
-                fval = (float)inum; break;
-            case FLOAT:
-                //expression is a number
-                fval = fnum; break;
-            case ID:
-                //expression is a variable
-                fval = SymbolTable.getValuef(id);
-                if (fval == null) {
-                    System.out.print(id + " was not declared");
-                    System.exit(0);
-                }   break;
-            case BOOLEAN:
-                //expression is a variable
-                fval = SymbolTable.getValuef(bl.toString());
-                if (fval == null) {
-                    System.out.print(bl + " was not declared");
-                    System.exit(0);
-                }   break;
-            case EXP:
-                //expression is a math expression
-                switch (operator) {
-                    case sym.PLUS:
-                        fval = operands.getfi().getValuef() + operands.getse().getValuef();
-                        break;
-                    case sym.MINUS:
-                        fval = operands.getfi().getValuef() - operands.getse().getValuef();
-                        break;
-                    case sym.TIMES:
-                        fval = operands.getfi().getValuef() * operands.getse().getValuef();
-                        break;
-                    case sym.DIVIDE:
-                        fval = operands.getfi().getValuef() / operands.getse().getValuef();
-                        break;
-                    default:
-                        break;
-                } break;
-            default: break;
-        }
-        return fval;
-    }
-        
-    public String getType(){    
-        String t = "";
-            switch (this.eType) {
-                case INTEGER: t = "Integer" ; break;
-                case FLOAT: t = "Float"; break;
-                case ID: t = "Char"; break;                
-                case BOOLEAN: t = "Boolean"; break;           
-                default: break;
-            }        
-        return t;
-    }
+
     
 }

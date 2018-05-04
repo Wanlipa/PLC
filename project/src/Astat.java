@@ -159,7 +159,7 @@ public class Astat {
 
         if (statementType == assignment) {
             Atype value = (Atype)assExpr.getValue();
-            SymbolTable.setValuet(assVariable, value);
+            SymbolTable.setValue(assVariable, value);
 //            SymbolTable.setValue(assVarType , assVariable, assExpr.getValue());
             
 
@@ -167,7 +167,7 @@ public class Astat {
             Atype value = null;
             value = (Atype) assExpr.getValue();
                 if (checkType(value)){
-                    SymbolTable.setValuet(assVariable, value);
+                    SymbolTable.setValue(assVariable, value);
                 }
                 else{
     
@@ -270,6 +270,7 @@ public class Astat {
     
     public boolean checkType(Atype value) {
         boolean checkT = false;
+        
         if ((assType == assExpr.getEType())
                         || (value.type.equals("FLOAT") && assType == AexpType.FLOAT) 
                         || (value.type.equals("BOOLEAN") && assType == AexpType.BOOLEAN)
@@ -288,5 +289,8 @@ public class Astat {
         }        
         return checkT;
     }
+
+        
+        
     
 }
