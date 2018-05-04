@@ -132,6 +132,7 @@ char = \'[A-Za-z_0-9]\'
     "begin"            { return symbol(sym.BEGIN); }
     "end"              { return symbol(sym.END); }
     "=="               { return symbol(sym.EQEQ); }
+    "<>"               { return symbol(sym.NEQ); }
     ">"                { return symbol(sym.GT); }
     "<"                { return symbol(sym.LT); }
     "<="               { return symbol(sym.LTEQ); }

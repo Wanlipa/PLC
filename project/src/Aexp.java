@@ -193,6 +193,29 @@ public class Aexp {
                         }
 //                        val = operands.getfi().getValue() / operands.getse().getValue();
                         break;
+                    case sym.EQEQ:
+                        boolean relop = false;
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+//                            val = new Atype(((Integer)fi.value) / ((Integer)se.value),false,"INTEGER");
+                              if ((Integer)fi.value == (Integer)se.value) {
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
+                            val = new Atype(new Float(fi.value.toString()) / new Float(se.value.toString()),false,"FLOAT");
+                        }
+                        else{
+                                 val = new Atype(0, true,"");
+                            error = true;
+                        }
+//                        val = operands.getfi().getValue() / operands.getse().getValue();
+                        break;
+                        
+                        
                     default:
                         break;
                 } break;
