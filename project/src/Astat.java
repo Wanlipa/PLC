@@ -182,17 +182,17 @@ public class Astat {
                 System.out.println("Type Error");
                 System.exit(0);
             }
-            else if(chType(val)){
+            else if(val.type.equals("INTEGER")){
                 if((Integer)val.value != 0){
                     ifbody.execute();
                 }
             }
-            else if(chType(val)){
+            else if(val.type.equals("FLOAT")){
                 if((Float)val.value != 0){
                     ifbody.execute();
                 }
             }
-            else if(chType(val)){
+            else if(val.type.equals("BOOLEAN")){
                 if((Boolean)val.value){
                     ifbody.execute();
                 }
@@ -210,7 +210,7 @@ public class Astat {
                     System.out.println("Type Error");   
                     System.exit(0);
                 }
-                else if(chType(val)){
+                else if(val.type.equals("INTEGER")){
                     if((Integer)val.value != 0){
                         
                     whileBody.execute();
@@ -219,7 +219,7 @@ public class Astat {
                     break;
                     }
                 }
-                else if(chType(val)){
+                else if(val.type.equals("FLOAT")){
                     if((Float) val.value !=0){
                         whileBody.execute();
                     }
@@ -227,7 +227,7 @@ public class Astat {
                         break;
                     }
                 }
-                else if(chType(val)){
+                else if(val.type.equals("BOOLEAN")){
                     if((Boolean) val.value){
                         whileBody.execute();
                     }
@@ -279,18 +279,6 @@ public class Astat {
         }        
         return checkT;
     }
-    
-    public boolean chType(Atype value){
-        boolean checkT = false;
-        if ((value.type.equals("FLOAT")) 
-                || (value.type.equals("BOOLEAN")) 
-                || (value.type.equals("INTEGER"))) {
-            checkT = true;            
-        }        
-        return checkT;
-    }
-
-        
-        
+           
     
 }
