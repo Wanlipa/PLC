@@ -661,10 +661,10 @@ public class Astat {
             
             ret_id = SymbolTable.getCurrentContextReturnAddress();
             String cxt = SymbolTable.getCurrentContext();
-            if(ret_id == null){
-                System.out.println("Compiler Error: ret_id should be set by function before call");
-                System.exit(0);
-            }
+//            if(ret_id == null){
+//                System.out.println("Compiler Error: ret_id should be set by function before call");
+//                System.exit(0);
+//            }
             
             if (ret_expr != null){
                 Atype retval = (Atype)ret_expr.getValue();

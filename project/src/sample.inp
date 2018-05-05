@@ -18,7 +18,12 @@ def testv() => void [{
    console << c;
 }];
 
-console << fun2(7);
+def testk(int x) => void [{
+   if x > 5 => [{ console << 10; return; }]
+   else => [{ console << -10; return;  }];
+   console << 'c';
+}];
+console << fun(10);
 
 /*
 boolean f = false;
