@@ -1,26 +1,42 @@
-int a = 5;
-int b;
-
+int a = 3;
+int b = 5;
+boolean e;
+boolean f = false;
 console << a + 2 <<  b << 3.1;
 
+c = 10*20;
+d = 2-10;
+e = 10*20 >= 2-10;
 
-/*
+//console << e;
+//console << c!=d;
+
+
+
 
 int b = 5;
 
 while a =>
-begin 
+[{ 
     b = b * a;
     a = a - 1;
 console << b;
-end;
+}];
 
-if 1 => { console << 15.5 };
 
-elseif 1 => { console << 189 };
 
-//else => {console << c};
-*/
+if 0 => [{ console << e; }]
+else => [{console << 99999;}];
+
+
+
+if f => [{ console << e; }]
+elseif e => [{ console << 88888; }]
+else => [{console << 99999;}];
+
+
+
+
 
 
 

@@ -16,7 +16,8 @@ public class Astat {
     public static int whileloop = 5;
     public static int funDeclaration = 6;
     public static int returnStatement = 7;
-    public static int ifelse = 8;
+    public static int ifthenelse = 8;
+    public static int ifelse = 9;
 
     /*
      * assignment statement: variable = expr
@@ -73,7 +74,6 @@ public class Astat {
     */
     
         public static Astat assigntype(String type, String Variable) {
-            System.out.println("Hello World!!!!");
          String FullType = "";
          if(type.equals("boolean")){
              FullType = "BOOLEAN";
@@ -148,11 +148,26 @@ public class Astat {
         return statement;
     }
     
-    Aexp ifElse;
-    public static Astat ifelse(Aexp expr){
+    Aexp elseifcondition;
+    Astat elseifbody;
+    Astat elsebody;
+    public static Astat ifthenelse(Aexp Condition, Astat Ifbody, Aexp Condition2, Astat Elseifbody, Astat Elsebody){
+        Astat statement = new Astat();
+        statement.statementType = ifthenelse;
+        statement.ifcondition = Condition;
+        statement.ifbody = Ifbody;
+        statement.elseifcondition = Condition2;
+        statement.elseifbody = Elseifbody;
+        statement.elsebody = Elsebody;
+        return statement;
+    }    
+        
+    public static Astat ifelse(Aexp Condition, Astat Ifbody, Astat Elsebody) {
         Astat statement = new Astat();
         statement.statementType = ifelse;
-        statement.ifElse = expr;
+        statement.ifcondition = Condition;
+        statement.ifbody = Ifbody;
+        statement.elsebody = Elsebody;
         return statement;
     }
 
@@ -221,7 +236,7 @@ public class Astat {
                 Atype value = null;
                 value = (Atype) assExpr.getValue();
                 if (this.checkType(value)){
-                    System.out.println("Setting value of : " + assVariable + " with value " + value.value.toString());
+                    //System.out.println("Setting value of : " + assVariable + " with value " + value.value.toString());
                     SymbolTable.setValue(assVariable, value);
                 }
                 else{
@@ -284,7 +299,166 @@ public class Astat {
 //            }
 
 
-        } else if (statementType == whileloop) {
+        }else if (statementType == ifelse) {
+
+            Atype val = (Atype)ifcondition.getValue();
+            if (ifcondition.getErr()) {
+                System.out.println("Exception: Type Error");
+                System.exit(0);
+            }
+            else if(val.type.equals("INTEGER")){
+                if((Integer)val.value != 0){
+                    ifbody.execute();
+                }else{
+                    elsebody.execute();
+                }
+            }
+            else if(val.type.equals("FLOAT")){
+                if((Float)val.value != 0){
+                    ifbody.execute();
+                }else{
+                    elsebody.execute();
+                }
+            }
+            else if(val.type.equals("BOOLEAN")){
+                if((Boolean)val.value){
+                    ifbody.execute();
+                }else{
+                    elsebody.execute();
+                }
+            }
+//            if (ifcondition.getValue() != 0) {
+//                ifbody.execute();
+//            }
+
+
+        }else if (statementType == ifthenelse) {
+            
+            Atype val = (Atype)ifcondition.getValue();
+            Atype val2 = (Atype)elseifcondition.getValue();
+            
+            if (ifcondition.getErr()) {
+                System.out.println("Exception: Type Error");
+                System.exit(0);
+            }
+            
+            if (elseifcondition.getErr()){
+                System.out.println("Exception: Type Error");
+                System.exit(0);
+            }
+
+            boolean exec_if = false;
+            boolean exec_elif = false;
+            
+            if (val.type.equals("INTEGER")){
+                exec_if = ((Integer)val.value != 0);
+            }
+            else if (val.type.equals("FLOAT")){
+                exec_if = ((Float)val.value != 0.0);
+            }
+            else if (val.type.equals("BOOLEAN")){
+                exec_if = ((Boolean)val.value);
+            }
+            
+            if (val2.type.equals("INTEGER")){
+                exec_elif = ((Integer)val2.value != 0);
+            }
+            else if (val2.type.equals("FLOAT")){
+                exec_elif = ((Float)val2.value != 0.0);
+            }
+            else if (val2.type.equals("BOOLEAN")){
+                exec_elif = ((Boolean)val2.value);
+            }
+            
+            if (exec_if){
+                ifbody.execute();
+            }
+            else if (exec_elif){
+                elseifbody.execute();
+            }
+            else{
+                elsebody.execute();
+            }
+            
+           //  System.out.println("con int"+exec_if);
+            
+
+//            if (val.type.equals("INTEGER") || val2.type.equals("INTEGER")){
+//                if((Integer)val.value != 0) {
+//                    cond_if = true;          
+//                }else if ((Integer)val2.value != 0){
+//                    cond_else = true;
+//                }                
+//            }else if (val.type.equals("FLOAT") || val2.type.equals("FLOAT")){
+//                if((Float)val.value != 0){
+//                    cond_if = true;
+//                }else if ((Float)val2.value != 0){
+//                    cond_else = true;
+//                }
+//            }           
+//            if (ifcondition.getErr()) {
+//                System.out.println("Exception: Type Error");
+//                System.exit(0);
+//            }
+//            else if(val.type.equals("INTEGER") || val2.type.equals("INTEGER")){
+//                if(conif_int){
+//                    ifbody.execute();
+//                }else if(conelse_int){
+//                    elseifbody.execute();
+//                }else{
+//                    elsebody.execute();
+//                }
+//                
+//            }
+//            else if(val.type.equals("FLOAT") || val2.type.equals("FLOAT")){
+//                if(conif_float){
+//                    ifbody.execute();
+//                }else if (conelse_float){
+//                    elseifbody.execute();
+//                }else{
+//                    elsebody.execute();
+//                }
+//            }
+//            else if(val.type.equals("INTEGER") || val2.type.equals("INTEGER")){
+//                if((Integer)val.value != 0){
+//                    ifbody.execute();
+//                }else if((Integer)val2.value != 0){
+//                    elseifbody.execute();
+//                }else{
+//                    elsebody.execute();
+//                }
+//                
+//            }
+//            else if(val.type.equals("FLOAT") || val2.type.equals("FLOAT")){
+//                if((Float)val.value != 0){
+//                    ifbody.execute();
+//                }else if ((Float)val2.value != 0){
+//                    elseifbody.execute();
+//                }else{
+//                    elsebody.execute();
+//                }
+//            }
+//            else if(val.type.equals("BOOLEAN") || val2.type.equals("BOOLEAN")){
+//                if((Boolean)val.value){
+//                    ifbody.execute();
+//                }else if ((Boolean)val2.value){
+//                    elseifbody.execute();                    
+//                }else{
+//                    elsebody.execute();
+//                }
+//            }
+//            else{
+//                if(cond_if){
+//                    ifbody.execute();
+//                }else if(cond_else){
+//                    elseifbody.execute();
+//                }else{
+//                    elsebody.execute();
+//                }
+//            }
+
+
+        }else if (statementType == whileloop) {
             
             for (;;) {
                 Atype val = (Atype)whileCondition.getValue();

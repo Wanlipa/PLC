@@ -3,7 +3,7 @@ import java.util.*;
 import java_cup.runtime.*;
 
 
-terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, EQ, LBRACE, RBRACE, LSHIFT,
+terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, EQ, LSHIFT,LBRACK,RBRACK,
                    EQEQ,NEQ, GT, LT, LTEQ, GTEQ, AND, OR, TYPE,
                    IF, ELSEIF, ELSE, THEN, CONSOLE, WHILE,  DO, BEGIN,  END;
 
@@ -22,7 +22,7 @@ non terminal Aexp               expr, factor, group;
 /* Precedences */
 precedence left EQEQ, NEQ, GT, LT, LTEQ, GTEQ, AND, OR;
 precedence left PLUS, MINUS;
-precedence left TIMES, DIVIDE;
+
 
 
 
@@ -64,7 +64,7 @@ assigntype      ::= TYPE:t ID:i EQ expr:e
                 ;
 
 
-while           ::= WHILE expr:e THEN statement:s 
+while           ::= WHILE expr:e THEN LBRACK statement:s RBRACK
                     {: RESULT = Astat.whileloop(e,s); :}
                 ;
 
@@ -80,14 +80,26 @@ print_val       ::= print_val:p LSHIFT expr:e
                     {: RESULT = Astat.createPrintArrayList(e); :}
                 ;
 
-ifthen          ::= IF expr:e THEN LBRACE statement:s RBRACE
-                    {: RESULT = Astat.ifthen(e,s); :}
-                | ELSEIF expr:e THEN LBRACE statement:s RBRACE
-                    {: RESULT = Astat.ifthen(e,s); :}
+ifthen          ::= IF expr:e1 THEN LBRACK statement:s1 RBRACK
+                    {: RESULT = Astat.ifthen(e1,s1); :}
+                | IF expr:e1 THEN LBRACK statement:s1 RBRACK ELSE THEN LBRACK statement:s2 RBRACK
+                    {: RESULT = Astat.ifelse(e1,s1,s2); :}
+                | IF expr:e1 THEN LBRACK statement:s1 RBRACK ELSEIF expr:e2 THEN LBRACK statement:s2 RBRACK ELSE THEN LBRACK statement:s3 RBRACK
+                    {: RESULT = Astat.ifthenelse(e1,s1,e2,s2,s3); :}
                 ;
 
-expr            ::= expr:e EQEQ group:g
-                    {: RESULT = new Aexp(new Args(e,g), sym.EQEQ); :}
+expr            ::= expr:e1 EQEQ expr:e2
+                    {: RESULT = new Aexp(new Args(e1,e2), sym.EQEQ); :}
+                | expr:e1 NEQ expr:e2
+                    {: RESULT = new Aexp(new Args(e1,e2), sym.NEQ); :}
+                | expr:e1 GT expr:e2
+                    {: RESULT = new Aexp(new Args(e1,e2), sym.GT); :}
+                | expr:e1 LT expr:e2
+                    {: RESULT = new Aexp(new Args(e1,e2), sym.LT); :}
+                | expr:e1 LTEQ expr:e2
+                    {: RESULT = new Aexp(new Args(e1,e2), sym.LTEQ); :}
+                | expr:e1 GTEQ expr:e2
+                    {: RESULT = new Aexp(new Args(e1,e2), sym.GTEQ); :}
                 | expr:e PLUS group:g
                     {: RESULT = new Aexp(new Args(e,g), sym.PLUS); :}
                 | expr:e MINUS group:g
