@@ -87,7 +87,7 @@ pickle-email-*.html
 project/bin/*
 project/classes/src/*
 project/dist/*
-
+nbproject/private/*
 
 /dist/
 /build/
