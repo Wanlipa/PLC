@@ -407,7 +407,7 @@ public class Astat {
 
             Atype val = (Atype)ifcondition.getValue();
             if (ifcondition.getErr()) {
-                System.out.println("Type Error");
+                System.out.println("Exception: Type Error");
                 System.exit(0);
             }
             else if(val.type.equals("INTEGER")){

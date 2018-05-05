@@ -139,6 +139,8 @@ public class Aexp {
                 }   
                 
                 break;
+            case CHAR:
+                val = new Atype(this.character, false, "CHAR"); break;
                 
             case IDARRAY:
                 //System.out.println("I AM HEEREERERERE11");

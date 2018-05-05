@@ -1,9 +1,12 @@
-int a = 3;
-int b = 5;
+int a = -3;
+int b = 5*2 + -10;
 boolean e;
 boolean f = false;
-console << a + 2 <<  b << 3.1;
+console << a + 2 <<  b << -3.1;
 
+char h = 'b';
+console << h;
+/*
 array <float,20> kk;
 
 kk<5> = 10.0;
@@ -23,23 +26,24 @@ e = 10*20 >= 2-10;
 int b = 5;
 
 while a =>
-[{ 
+[{: 
     b = b * a;
     a = a - 1;
 console << b;
-}];
+:}];
 
 
 
-if 0 => [{ console << e; }]
-else => [{console << 99999;}];
+if 0 => [{: console << e; :}]
+else => [{: console << 99999; :}];
 
 
 
-if f => [{ console << e; }]
-elseif e => [{ console << 88888; }]
-else => [{console << 99999;}];
+if f => [{: console << e; :}]
+elseif e => [{: console << 88888; :}]
+else => [{: console << 99999; :}];
 
+*/
 
 
 

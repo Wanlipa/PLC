@@ -122,8 +122,12 @@ factor          ::= LPAREN expr:e RPAREN
                     {: RESULT = e; :}
                 | IVAL:n
                     {: RESULT = new Aexp(n); :}
+                | MINUS IVAL:n
+                    {: RESULT = new Aexp(-n); :}
                 | FVAL:f
                     {: RESULT = new Aexp(f); :}
+                | MINUS FVAL:f
+                    {: RESULT = new Aexp(-f); :}
                 | ID:id LT ID:idx_id GT
                     {: 
                       RESULT = new Aexp(id, idx_id); 

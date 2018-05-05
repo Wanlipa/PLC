@@ -85,7 +85,7 @@ float = (0\.[0-9]+) | ([1-9][0-9]*\.[0-9]+)
 /* A identifier integer is a word beginning a letter between A and
    Z, a and z, or an underscore followed by zero or more letters
    between A and Z, a and z, zero and nine, or an underscore. 
-    [^\r\n\"\\]
+    [^\r\n\"\\] \'[A-Za-z_0-9]\'
 */
 id = [A-Za-z_][A-Za-z_0-9]*
 boolean = true | false
@@ -128,8 +128,8 @@ char = \'[A-Za-z_0-9]\'
     "<<"               { return symbol(sym.LSHIFT); }
     "while"            { return symbol(sym.WHILE); }
     "do"               { return symbol(sym.DO); }
-    "{"                { return symbol(sym.BEGIN); }
-    "}"                { return symbol(sym.END); }
+    "{:"                { return symbol(sym.BEGIN); }
+    ":}"                { return symbol(sym.END); }
     "["                { return symbol(sym.LBRACK); }
     "]"                { return symbol(sym.RBRACK); }
     "=="               { return symbol(sym.EQEQ); }
@@ -153,9 +153,9 @@ char = \'[A-Za-z_0-9]\'
 
     {float}    { return symbol(sym.FVAL, new Float(yytext())); }
 
-    {boolean}  { return symbol(sym.BLVAL, new Boolean (yytext()));}
+    {boolean}  { return symbol(sym.BLVAL, new Boolean(yytext()));}
     
-    {char}     { return symbol(sym.CHARVAL, yytext());}
+    {char}     { return symbol(sym.CHARVAL, (char)yytext().charAt(1));}
     
     {id}       { return symbol(sym.ID, yytext());}    
 
