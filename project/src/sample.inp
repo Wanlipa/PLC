@@ -1,3 +1,30 @@
+
+def fun2(int b) => int [{
+    return b - 3;
+}];
+
+
+def fun(int b) => int [{
+    return b + fun2(b);
+}];
+
+def test() => int [{
+    int b = a - 1;
+    return b;
+}];
+
+float a = 4 + 3.5;
+
+console << a;
+
+/*
+boolean f = false;
+
+if f => [{ console << 111111; }]
+elseif f => [{ console << 88888; }]
+else => [{console << 99999;}];
+*/
+/*
 int a = 3;
 int b = 5;
 boolean e;
@@ -40,8 +67,7 @@ if f => [{ console << e; }]
 elseif e => [{ console << 88888; }]
 else => [{console << 99999;}];
 
-
-
+*/
 
 
 

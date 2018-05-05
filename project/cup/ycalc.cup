@@ -5,7 +5,7 @@ import java_cup.runtime.*;
 
 terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, EQ, LSHIFT,LBRACK,RBRACK,
                    EQEQ,NEQ, GT, LT, LTEQ, GTEQ, AND, OR, TYPE,
-                   IF, ELSEIF, ELSE, THEN, CONSOLE, WHILE,  DO, BEGIN,  END, COMMA;
+                   IF, ELSEIF, ELSE, THEN, CONSOLE, WHILE,  DO, BEGIN,  END, COMMA, DEF, RETURN;
 
 terminal Integer   IVAL;
 terminal Float     FVAL;
@@ -13,15 +13,17 @@ terminal String    ID;
 terminal Boolean   BLVAL;
 terminal char      CHARVAL;
 
-non terminal Object             program;
-non terminal Astat              statement, assignment, ifthen ,console , while, statement_part, assigntype;
-non terminal Lstat              statement_list;
-non terminal ArrayList<Aexp>    print_val;
-non terminal Aexp               expr, factor, group;
+non terminal Object              program;
+non terminal Astat               statement, assignment, ifthen ,console , while, statement_part, assigntype, func_def;
+non terminal Lstat               statement_list;
+non terminal ArrayList<Aexp>     print_val, func_eval_params;
+non terminal ArrayList<FuncArg>  func_args;
+non terminal Aexp                expr, factor, group;
 
 /* Precedences */
 precedence left EQEQ, NEQ, GT, LT, LTEQ, GTEQ, AND, OR;
 precedence left PLUS, MINUS;
+
 
 
 
@@ -43,6 +45,8 @@ statement       ::= assignment:s
                     {: RESULT = s; :}
                 | assigntype:s
                     {: RESULT = s; :}
+                | func_def:s
+                    {: RESULT = s; :}
                 | ifthen:s
                     {: RESULT = s; :}
                 | console:s
@@ -51,6 +55,8 @@ statement       ::= assignment:s
                     {: RESULT = s; :}
                 | BEGIN statement_list:s END
                     {: RESULT = Astat.block(s); :}
+                | RETURN expr:e
+                    {: RESULT = Astat.fnreturn(e); :}
                 ;
 
 assignment      ::= ID:i EQ expr:e
@@ -72,17 +78,36 @@ while           ::= WHILE expr:e THEN LBRACK statement:s RBRACK
                     {: RESULT = Astat.whileloop(e,s); :}
                 ;
 
-
-
 console         ::= CONSOLE LSHIFT print_val:p
                     {: RESULT = Astat.print(p); :} 
                 ;
 
 print_val       ::= print_val:p LSHIFT expr:e
-                    {: RESULT = Astat.appendPrintArrayList(p,e); :}
+                    {: RESULT = Astat.appendArrayList(p,e); :}
                 | expr:e
-                    {: RESULT = Astat.createPrintArrayList(e); :}
+                    {: RESULT = Astat.createArrayList(e); :}
                 ;
+
+func_def        ::= DEF ID:fn_id LPAREN func_args:fa RPAREN THEN TYPE:ret_type LBRACK statement:s RBRACK
+                    {:    
+                       RESULT = Astat.funcdef(fa, fn_id, ret_type.toString(), s); 
+                    :}
+                | DEF ID:fn_id LPAREN  RPAREN THEN TYPE:ret_type LBRACK statement:s RBRACK
+                    {:
+                        RESULT = Astat.funcdef(new ArrayList<FuncArg>(), fn_id, ret_type.toString(), s);
+                    :}
+                ;
+
+func_args       ::= func_args:fa COMMA TYPE:arg_type ID:arg_id
+                    {: 
+                       RESULT = FuncArg.appendArrayList(fa, new FuncArg(arg_type.toString(), arg_id)); 
+                    :}
+                | TYPE:arg_type ID:arg_id
+                    {:     
+                        RESULT = FuncArg.createArrayList(new FuncArg(arg_type.toString(), arg_id)); 
+                    :}
+                ;
+
 
 ifthen          ::= IF expr:e1 THEN LBRACK statement:s1 RBRACK
                     {: RESULT = Astat.ifthen(e1,s1); :}
@@ -124,6 +149,10 @@ factor          ::= LPAREN expr:e RPAREN
                     {: RESULT = new Aexp(n); :}
                 | FVAL:f
                     {: RESULT = new Aexp(f); :}
+                | LPAREN TYPE:t RPAREN IVAL:n
+                    {: RESULT = Aexp.explicitConvert(t.toString(),n); :}
+                | LPAREN TYPE:t RPAREN FVAL:f
+                    {: RESULT = Aexp.explicitConvert(t.toString(),f); :}
                 | ID:id LT ID:idx_id GT
                     {: 
                       RESULT = new Aexp(id, idx_id); 
@@ -136,5 +165,16 @@ factor          ::= LPAREN expr:e RPAREN
                     {: RESULT = new Aexp(c); :}
                 | ID:id LT IVAL:idx_num GT
                     {: RESULT = new Aexp(id, idx_num); :}
-                
+                | ID:fn_id LPAREN func_eval_params:p RPAREN
+                    {: RESULT = new Aexp(fn_id, p); :}
+                | ID:fn_id LPAREN  RPAREN
+                    {: RESULT = new Aexp(fn_id, new ArrayList<Aexp>()) ; :} 
                 ;
+
+
+func_eval_params  ::= func_eval_params:p COMMA expr:e
+                    {: RESULT = Astat.appendArrayList(p,e); :}
+                | expr:e
+                    {: RESULT = Astat.createArrayList(e); :}
+                ;
+

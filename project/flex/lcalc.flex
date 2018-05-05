@@ -120,6 +120,8 @@ char = \'[A-Za-z_0-9]\'
     "("                { return symbol(sym.LPAREN); }
     ")"                { return symbol(sym.RPAREN); }
     "="                { return symbol(sym.EQ); }
+    "def"              { return symbol(sym.DEF);}
+    "return"           { return symbol(sym.RETURN); }
     "if"               { return symbol(sym.IF); }
     "elseif"           { return symbol(sym.ELSEIF); }
     "else"             { return symbol(sym.ELSE); }

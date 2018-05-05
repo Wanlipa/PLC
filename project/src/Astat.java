@@ -18,11 +18,24 @@ public class Astat {
     public static int returnStatement = 7;
     public static int ifthenelse = 8;
     public static int ifelse = 9;
+    public static int functiondef = 10;
+    public static int function_return = 11;
+    
+    public Aexp ret_expr;
+    public String ret_id;
+    
+    public static Astat fnreturn(Aexp e){
+        Astat statement = new Astat();
+        statement.statementType = function_return;
+        statement.ret_expr = e;
+        return statement;
+    }
 
     /*
      * assignment statement: variable = expr
      * adding : floating , boolean
      */
+    
     
     public String assVarType;
     public String assVariable;
@@ -41,7 +54,6 @@ public class Astat {
         statement.assExpr = expr;
 
         return statement;
-
     }
     
     public static Astat assignmentArray(String Variable, Aexp index_expr, Aexp val_expr){
@@ -156,17 +168,42 @@ public class Astat {
 
     }
     
-    public static ArrayList<Aexp> createPrintArrayList(Aexp e){
+    public static ArrayList<Aexp> createArrayList(Aexp e){
         ArrayList<Aexp> l = new ArrayList<Aexp>();
         l.add(e);
         return l;
     }
     
-    public static ArrayList<Aexp> appendPrintArrayList(ArrayList<Aexp> p, Aexp e){
+    public static ArrayList<Aexp> appendArrayList(ArrayList<Aexp> p, Aexp e){
         ArrayList<Aexp> l = new ArrayList<Aexp>(p);
         l.add(e);
         return l;
     }
+    
+    
+    /**
+     * Function Definition
+     * 
+     *
+     */
+    
+    
+    FunctionObject fobj;
+    
+    public static Astat funcdef(ArrayList<FuncArg> fargs, String fid, String ret_type, Astat body){
+        Astat statement = new Astat();
+        statement.statementType = functiondef;
+        String tmp_ret_type = ret_type.toUpperCase();
+        if (tmp_ret_type.equals("INT")){
+            tmp_ret_type = "INTEGER";
+        }
+        // TODO -- Check Allow Type other wise abort!!!  
+        statement.fobj = new FunctionObject(fid, tmp_ret_type, fargs, body);
+        
+        // Maybe can set Symbol here to get compile time evaluation
+        return statement;
+    }
+    
     
     
     
@@ -571,8 +608,39 @@ public class Astat {
             
         } else if (statementType == block) {
             for (Astat s : blockBody.statementList) {
-                s.execute();
+                
+                if(!SymbolTable.context_break){
+                    s.execute();
+                }
+                else{
+                    break;
+                }
+                
             }
+        }
+        else if (statementType == functiondef){
+            // Allocate in global scope
+            Atype value = new Atype(fobj, false, "FUNCTION");
+            SymbolTable.setValue(fobj.f_id, value);
+        
+        }
+        else if (statementType == function_return){
+            
+            ret_id = SymbolTable.getCurrentContextReturnAddress();
+            String cxt = SymbolTable.getCurrentContext();
+            if(ret_id == null){
+                System.out.println("Compiler Error: ret_id should be set by function before call");
+                System.exit(0);
+            }
+            
+            Atype retval = (Atype)ret_expr.getValue();
+            if(retval.getErr()){
+                System.out.println("Exception: Type Error");
+                System.exit(0);
+            }
+            
+            SymbolTable.setValue(ret_id, retval, cxt); // Return address will evaluate at global for now
+            SymbolTable.context_break = true;
         }
     }
     

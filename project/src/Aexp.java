@@ -1,4 +1,5 @@
 package src;
+import java.util.*;
 
 
 public class Aexp {
@@ -8,6 +9,7 @@ public class Aexp {
         FLOAT,
         ID,
         IDARRAY,
+        FUNCTION_EVAL,
         BOOLEAN,
         CHAR,
         ARRAY,
@@ -23,10 +25,40 @@ public class Aexp {
     private Boolean bl = null;
     private char character;
     private boolean error = false;
-    
-    
+    private String f_id;
+    private ArrayList<Aexp> f_params;
     private Args operands;
     private int operator;
+    
+    
+    public static Aexp explicitConvert(String t, Float val){
+      if (t.toUpperCase().equals("INT")){
+          return new Aexp( val.intValue() );
+      } 
+      else{
+          System.out.println("Exception: Type " + t.toString() + "is not convertable to int");
+          System.exit(0);
+          return null;
+      }
+    }
+    
+    public static Aexp explicitConvert(String t, Integer val){
+      if (t.toUpperCase().equals("FLOAT")){
+          return new Aexp( val.floatValue() );
+      } 
+      else{
+          System.out.println("Exception: Type " + t.toString() + "is not convertable to float");
+          System.exit(0);
+          return null;
+      }
+    }
+    
+    Aexp(String function_id,  ArrayList<Aexp> function_params){
+     // Function evaluation
+     eType = AexpType.FUNCTION_EVAL;
+     f_id = function_id;
+     f_params = function_params;
+    }
 
     Aexp(Integer x) {
         eType = AexpType.INTEGER;
@@ -192,7 +224,43 @@ public class Aexp {
                 }
                 
                 break;
-            
+                
+            case FUNCTION_EVAL:
+                    Atype fn_item = SymbolTable.getGlobalValue(f_id);
+                    if (fn_item != null){
+                        if (fn_item.type.equals("FUNCTION")){
+                            // IMPLEMENT HERE!!!!
+                            FunctionObject fn = (FunctionObject) fn_item.value;
+                            // 1. Evaluate all Aexp first before passing through the method
+                            ArrayList<Atype> input_args = new ArrayList<Atype>();
+                            for (Aexp expr : f_params){
+                                Atype v = (Atype)expr.getValue();
+                                if(expr.getErr()){
+                                    System.out.println("Exception: Type Error for " + f_id + " input arguments");
+                                    System.exit(0);
+                                }
+                                else{
+                                        input_args.add(v);
+                                } 
+                            }
+                            
+                            // 2. pass Function, and return
+                            val = fn.execute(input_args);
+                            
+                            
+                        }
+                        else{
+                            System.out.println("Exception: " + "Variable :" + f_id + ", type: " + fn_item.type + " is not callable");
+                            System.exit(-1);
+                        }
+                    
+                    }
+                    else{
+                        System.out.println("Exception: " + "Function " + f_id + " is not defined");
+                        System.exit(-1);
+                    }
+                    
+                break;
             case EXP:
                 Atype fi = (Atype)operands.getfi().getValue();           
                 Atype se = (Atype)operands.getse().getValue();
@@ -208,6 +276,12 @@ public class Aexp {
                             val = new Atype(((Integer)fi.value) + ((Integer)se.value), false,"INTEGER");
                         }
                         else if(fi.value instanceof Float && se.value instanceof Float){                                
+                            val = new Atype(new Float(fi.value.toString()) + new Float(se.value.toString()), false,"FLOAT");
+                        }
+                        else if(fi.value instanceof Integer && se.value instanceof Float){                                
+                            val = new Atype(new Float(fi.value.toString()) + new Float(se.value.toString()), false,"FLOAT");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Integer){                                
                             val = new Atype(new Float(fi.value.toString()) + new Float(se.value.toString()), false,"FLOAT");
                         }
                         else{
@@ -226,6 +300,12 @@ public class Aexp {
                         else if(fi.value instanceof Float && se.value instanceof Float){                                
                             val = new Atype(new Float(fi.value.toString()) - new Float(se.value.toString()), false,"FLOAT");
                         }
+                        else if(fi.value instanceof Integer && se.value instanceof Float){                                
+                            val = new Atype(new Float(fi.value.toString()) - new Float(se.value.toString()), false,"FLOAT");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Integer){                                
+                            val = new Atype(new Float(fi.value.toString()) - new Float(se.value.toString()), false,"FLOAT");
+                        }
                         else{
                             val = new Atype(0, true,"");
                             error = true;
@@ -242,6 +322,12 @@ public class Aexp {
                         else if(fi.value instanceof Float && se.value instanceof Float){                                
                             val = new Atype(new Float(fi.value.toString()) * new Float(se.value.toString()),false,"FLOAT");
                         }
+                        else if(fi.value instanceof Integer && se.value instanceof Float){                                
+                            val = new Atype(new Float(fi.value.toString()) * new Float(se.value.toString()),false,"FLOAT");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Integer){                                
+                            val = new Atype(new Float(fi.value.toString()) * new Float(se.value.toString()),false,"FLOAT");
+                        }
                         else{
                              val = new Atype(0, true,"");
                             error = true;
@@ -256,6 +342,12 @@ public class Aexp {
                             val = new Atype(((Integer)fi.value) / ((Integer)se.value),false,"INTEGER");
                         }
                         else if(fi.value instanceof Float && se.value instanceof Float){                                
+                            val = new Atype(new Float(fi.value.toString()) / new Float(se.value.toString()),false,"FLOAT");
+                        }
+                        else if(fi.value instanceof Integer && se.value instanceof Float){                                
+                            val = new Atype(new Float(fi.value.toString()) / new Float(se.value.toString()),false,"FLOAT");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Integer){                                
                             val = new Atype(new Float(fi.value.toString()) / new Float(se.value.toString()),false,"FLOAT");
                         }
                         else{
