@@ -144,7 +144,7 @@ char = \'[A-Za-z_0-9]\'
     "float"            { return symbol(sym.TYPE, yytext());}
     "boolean"          { return symbol(sym.TYPE, yytext());}
     "char"             { return symbol(sym.TYPE, yytext());}
-    "array"             { return symbol(sym.TYPE, yytext());}
+    "array"            { return symbol(sym.TYPE, yytext());}
 
 
 

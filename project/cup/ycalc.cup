@@ -128,17 +128,12 @@ factor          ::= LPAREN expr:e RPAREN
                     {: RESULT = new Aexp(f); :}
                 | MINUS FVAL:f
                     {: RESULT = new Aexp(-f); :}
-                | ID:id LT ID:idx_id GT
-                    {: 
-                      RESULT = new Aexp(id, idx_id); 
-                    :}
                 | ID:i
                     {: RESULT = new Aexp(i); :}
                 | BLVAL:b
                     {: RESULT = new Aexp(b); :}
                 | CHARVAL:c
                     {: RESULT = new Aexp(c); :}
-                | ID:id LT IVAL:idx_num GT
-                    {: RESULT = new Aexp(id, idx_num); :}
-                
+                | ID:id LT expr:e GT
+                    {: RESULT = new Aexp(id, e); :}                
                 ;

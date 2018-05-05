@@ -284,11 +284,11 @@ public class Astat {
                 
                 Integer idx = (Integer)idx_type.value; 
                 Atype value = (Atype)assExpr.getValue();
-                //System.out.println("Array CLASS NAME: " + id.value.getClass().getSimpleName());
+//                System.out.println("Array CLASS NAME: " + id.value.getClass().getSimpleName());
                 String id_type =  id.value.getClass().getSimpleName();
                 String array_val_type = id_type.substring(0, id_type.length() - 2 ).toUpperCase(); // should get something like FLOAT, INTEGER, BOOLEAN
-                // System.out.println("Array Type:" + array_val_type);
-                // System.out.println("Value Type:" + value.type);
+//                 System.out.println("Array Type:" + array_val_type);
+//                 System.out.println("Value Type:" + value.type);
                 if(array_val_type.equals(value.type)){
                   if (array_val_type.equals("INTEGER")){
                       Integer[] tmp = (Integer[]) id.value;
@@ -310,8 +310,11 @@ public class Astat {
                   }
                   else if (array_val_type.equals("CHAR")) {
                       char[] tmp = (char[]) id.value;
+                      System.out.println("char val :: "+value.value);
                       tmp[idx] = (char) value.value;
+                      System.out.println("char tmp :: "+tmp[idx]);
                       id.value = tmp;
+                      System.out.println("char id :: "+ id.value);
                       SymbolTable.setValue(assVariable, id);
                   }
                   else {
@@ -368,10 +371,13 @@ public class Astat {
                     case INTEGER:
                         default_value = new Atype(new Integer(0), false, "INTEGER");
                         SymbolTable.setValue(assVariable, default_value);
-                        break;
-              
+                        break;              
                     case FLOAT:
                         default_value = new Atype(new Float(0.0), false, "FLOAT");
+                        SymbolTable.setValue(assVariable, default_value);
+                        break;                        
+                    case CHAR:
+                        default_value = new Atype(new char[('\u0000')], false, "CHAR");
                         SymbolTable.setValue(assVariable, default_value);
                         break;
                     case ARRAY:
@@ -388,6 +394,11 @@ public class Astat {
                                 break;
                             case FLOAT:
                                 default_value = new Atype(new Float[assArraySize], false, "ARRAY");
+                                SymbolTable.setValue(assVariable, default_value);
+                                break;
+                            case CHAR:
+                                System.out.println("Creating Array type CHAR SIZE : " + assArraySize.toString());
+                                default_value = new Atype(new char[assArraySize], false, "ARRAY");
                                 SymbolTable.setValue(assVariable, default_value);
                                 break;
                             default:
@@ -556,7 +567,10 @@ public class Astat {
             System.out.println("-------------------");
             String out = "";
             for (Aexp expr : printEvalList){
-                Atype val = (Atype)expr.getValue();
+                Atype val = (Atype)expr.getValue();    
+                char[] charArrays = new char[]{'1', '2', '3', 'A', 'B', 'C'};
+                String str = String.valueOf(val.value);
+//                System.out.println("type : "+ val.type+" | print :"+ new String(str));
                 if(expr.getErr()){
                     System.out.println("Type Error in printing Evaluation");
                     System.exit(0);

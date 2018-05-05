@@ -1,20 +1,23 @@
-int a = -3;
+int a = 5;
 int b = 5*2 + -10;
 boolean e;
 boolean f = false;
+console << f;
 console << a + 2 <<  b << -3.1;
 
 char h = 'b';
 console << h;
-/*
-array <float,20> kk;
 
-kk<5> = 10.0;
-kk<3> = 2.0;
-int idx = 3;
+array <int,20> kk;
+
+kk<5+1> = 1;
+kk<3*6> = 100;
+int idx = 30;
 console << idx;
-console << kk<3>;
+kk<idx/3> = 555;
+console << kk<6> << kk<18> << kk<10>;
 
+/*
 int c = 10*20;
 int d = 2-10;
 e = 10*20 >= 2-10;
