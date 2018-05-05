@@ -53,6 +53,10 @@ public class FunctionObject {
        
        this.f_body = block;
    }
+   
+   public boolean isReturnVoid(){
+       return this.ret_type.equals("VOID");
+   }
     
     
    public Atype execute(ArrayList<Atype> inputs){
@@ -60,21 +64,21 @@ public class FunctionObject {
        validateArgs(inputs);
        // 2. Set context
        // 2.1 declare return address
-       createReturnID(); // in global scope
+       if (!isReturnVoid()){
+           createReturnID(); // in global scope
+       }
+       
        
        String current_context = SymbolTable.createUniqueContext();
        
        SymbolTable.pushContext(current_context);
-       SymbolTable.setContextReturnAddress(current_context, ret_id);
+       if (!isReturnVoid()){
+           SymbolTable.setContextReturnAddress(current_context, ret_id);
+       }
+       
        // set return address for return statement in blocks
        
-//       // Note that this method only works when return is not in the block! like if else
-//       for (Astat s : f_body.blockBody.statementList){
-//           
-//           if (s.statementType == Astat.function_return){
-//               s.ret_id = this.ret_id;
-//           }
-//       }
+
        // 2.5 bind input args to call context, Kind of Copying Mechanism
        for (int i = 0; i < argslist.size(); i++){
            FuncArg fa = argslist.get(i);
@@ -86,12 +90,15 @@ public class FunctionObject {
        // 3. Execute block
        f_body.execute();
        // 3.2 evaluate return value
-       Atype retval = SymbolTable.getValue(ret_id);
-       // return type evaluation
-       if (!retval.type.equals(ret_type)){
-           System.out.println("Exception: Function " + f_id + "Return type miss matched");
-            System.out.println("Expected Return type: " + ret_type + ", Get: " + retval.type);
-            System.exit(0);
+       Atype retval = null;
+       if (!isReturnVoid()){
+        retval = SymbolTable.getValue(ret_id);
+        // return type evaluation
+        if (!retval.type.equals(ret_type)){
+            System.out.println("Exception: Function " + f_id + "Return type miss matched");
+             System.out.println("Expected Return type: " + ret_type + ", Get: " + retval.type);
+             System.exit(0);
+        }
        }
        
        // 4. Clear Context

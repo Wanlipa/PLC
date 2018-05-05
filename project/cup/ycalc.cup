@@ -57,6 +57,12 @@ statement       ::= assignment:s
                     {: RESULT = Astat.block(s); :}
                 | RETURN expr:e
                     {: RESULT = Astat.fnreturn(e); :}
+                | RETURN 
+                    {: RESULT = Astat.fnreturn(); :}
+                | ID:fn_id LPAREN func_eval_params:p RPAREN
+                    {: RESULT = Astat.fncallvoid(fn_id,p); :}
+                | ID:fn_id LPAREN  RPAREN
+                    {: RESULT = Astat.fncallvoid(fn_id, new ArrayList<Aexp>()); :} 
                 ;
 
 assignment      ::= ID:i EQ expr:e
@@ -153,10 +159,6 @@ factor          ::= LPAREN expr:e RPAREN
                     {: RESULT = new Aexp(f); :}
                 | MINUS FVAL:f
                     {: RESULT = new Aexp(-f); :}
-                | LPAREN TYPE:t RPAREN IVAL:n
-                    {: RESULT = Aexp.explicitConvert(t.toString(),n); :}
-                | LPAREN TYPE:t RPAREN FVAL:f
-                    {: RESULT = Aexp.explicitConvert(t.toString(),f); :}
                 | ID:i
                     {: RESULT = new Aexp(i); :}
                 | BLVAL:b

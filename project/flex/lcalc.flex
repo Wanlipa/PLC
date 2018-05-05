@@ -143,6 +143,7 @@ char = \'[A-Za-z_0-9]\'
     "&"                { return symbol(sym.AND); }
     "|"                { return symbol(sym.OR); }
     "int"              { return symbol(sym.TYPE, yytext());}
+    "void"              { return symbol(sym.TYPE, yytext());}
     "float"            { return symbol(sym.TYPE, yytext());}
     "boolean"          { return symbol(sym.TYPE, yytext());}
     "char"             { return symbol(sym.TYPE, yytext());}

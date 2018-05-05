@@ -53,6 +53,7 @@ public class Aexp {
           return null;
       }
     }
+
     
     Aexp(String function_id,  ArrayList<Aexp> function_params){
      // Function evaluation
@@ -279,8 +280,23 @@ public class Aexp {
                                 } 
                             }
                             
-                            // 2. pass Function, and return
-                            val = fn.execute(input_args);
+                            if (!fn.isReturnVoid()){
+                                // 2. pass Function, and return
+                                Atype retval = fn.execute(input_args);
+                                if (retval != null){
+                                    val = retval;
+                                }
+                                else {
+                                    System.out.println("Exception: " + "Error in function evaluation :" + f_id);
+                                    System.exit(-1);
+                                }
+                            
+                            }
+                            else {
+                                System.out.println("Exception: " + "Void Return Type of Fuction :" + f_id + " is not evaluatable");
+                                System.exit(-1);
+                            
+                            }
                             
                             
                         }

@@ -1,3 +1,4 @@
+int a = 15;
 def fun2(int b) => int [{
     return b - 3;
 }];
@@ -12,9 +13,12 @@ def test() => int [{
     return b;
 }];
 
-float a = 4 + 3.5;
+def testv() => void [{
+   int c = a + 2;  
+   console << c;
+}];
 
-console << a;
+console << fun2(7);
 
 /*
 boolean f = false;

@@ -20,6 +20,7 @@ public class Astat {
     public static int ifelse = 9;
     public static int functiondef = 10;
     public static int function_return = 11;
+    public static int function_call_void = 12;
     
     public Aexp ret_expr;
     public String ret_id;
@@ -28,6 +29,23 @@ public class Astat {
         Astat statement = new Astat();
         statement.statementType = function_return;
         statement.ret_expr = e;
+        return statement;
+    }
+    
+    public static Astat fnreturn(){
+        Astat statement = new Astat();
+        statement.statementType = function_return;
+        return statement;
+    }
+    
+    public String f_void_id;
+    public ArrayList<Aexp> f_void_params;
+    
+    public static Astat fncallvoid(String function_id,  ArrayList<Aexp> function_params){
+        Astat statement = new Astat();
+        statement.statementType = function_call_void;
+        statement.f_void_id = function_id;
+        statement.f_void_params = function_params;
         return statement;
     }
 
@@ -601,7 +619,7 @@ public class Astat {
 
         } 
         else if (statementType == print){
-            System.out.println("-------------------");
+            System.out.println("---------CONSOLE----------");
             String out = "";
             for (Aexp expr : printEvalList){
                 Atype val = (Atype)expr.getValue();    
@@ -619,6 +637,7 @@ public class Astat {
             }
             
             System.out.println(out);
+            System.out.println("--------------------------");
             
         } else if (statementType == block) {
             for (Astat s : blockBody.statementList) {
@@ -635,7 +654,7 @@ public class Astat {
         else if (statementType == functiondef){
             // Allocate in global scope
             Atype value = new Atype(fobj, false, "FUNCTION");
-            SymbolTable.setValue(fobj.f_id, value);
+            SymbolTable.setValue(fobj.f_id, value, "GLOBAL");
         
         }
         else if (statementType == function_return){
@@ -647,14 +666,63 @@ public class Astat {
                 System.exit(0);
             }
             
-            Atype retval = (Atype)ret_expr.getValue();
-            if(retval.getErr()){
-                System.out.println("Exception: Type Error");
-                System.exit(0);
-            }
+            if (ret_expr != null){
+                Atype retval = (Atype)ret_expr.getValue();
+                if(retval.getErr()){
+                    System.out.println("Exception: Type Error");
+                    System.exit(0);
+                }
             
             SymbolTable.setValue(ret_id, retval, cxt); // Return address will evaluate at global for now
+            }
+            
             SymbolTable.context_break = true;
+        }
+        else if (statementType == function_call_void){
+            Atype fn_item = SymbolTable.getGlobalValue(f_void_id);
+                    if (fn_item != null){
+                        if (fn_item.type.equals("FUNCTION")){
+                            // IMPLEMENT HERE!!!!
+                            FunctionObject fn = (FunctionObject) fn_item.value;
+                            // 1. Evaluate all Aexp first before passing through the method
+                            ArrayList<Atype> input_args = new ArrayList<Atype>();
+                            for (Aexp expr : f_void_params){
+                                Atype v = (Atype)expr.getValue();
+                                if(expr.getErr()){
+                                    System.out.println("Exception: Type Error for " + f_void_id + " input arguments");
+                                    System.exit(0);
+                                }
+                                else{
+                                        input_args.add(v);
+                                } 
+                            }
+                            
+                            if(fn.isReturnVoid()){
+                                Atype retval = fn.execute(input_args);
+                                if(retval != null){
+                                    System.out.println("Sorry Something went wrong when call void function" );
+                                    System.exit(-1);
+                                }
+                            }
+                            else{
+                                System.out.println("Exception: " + "Function :" + f_void_id + " should be evaluated as expression" );
+                                System.exit(-1);
+                            }
+                            
+                          
+                            
+                            
+                        }
+                        else{
+                            System.out.println("Exception: " + "Variable :" + f_void_id + ", type: " + fn_item.type + " is not callable");
+                            System.exit(-1);
+                        }
+                    
+                    }
+                    else{
+                        System.out.println("Exception: " + "Function " + f_void_id + " is not defined");
+                        System.exit(-1);
+                    }
         }
     }
     
