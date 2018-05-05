@@ -196,7 +196,7 @@ public class Aexp {
             case EXP:
                 Atype fi = (Atype)operands.getfi().getValue();           
                 Atype se = (Atype)operands.getse().getValue();
-          
+                boolean relop = false;
                 //expression is a math expression
                 switch (operator) {
                     case sym.PLUS:
@@ -265,28 +265,156 @@ public class Aexp {
 //                        val = operands.getfi().getValue() / operands.getse().getValue();
                         break;
                     case sym.EQEQ:
-                        boolean relop = false;
+                        
                         if(operands.getfi().error || operands.getse().error ){
                             error = true;
                         }
                         else if((fi.value instanceof Integer && se.value instanceof Integer) ){
-//                            val = new Atype(((Integer)fi.value) / ((Integer)se.value),false,"INTEGER");
-                              if ((Integer)fi.value == (Integer)se.value) {
+                              int f = (Integer)fi.value;
+                              int s = (Integer)se.value;
+                              if (f == s) {
                                   relop = true;
                               }
                               val = new Atype(relop,false,"BOOLEAN");
                         }
                         else if(fi.value instanceof Float && se.value instanceof Float){                                
-                            val = new Atype(new Float(fi.value.toString()) / new Float(se.value.toString()),false,"FLOAT");
+                              float f = new Float(fi.value.toString());
+                              float s = new Float(se.value.toString());
+                              if (f == s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
                         }
                         else{
-                                 val = new Atype(0, true,"");
+                                 val = new Atype(relop, true,"");
                             error = true;
                         }
-//                        val = operands.getfi().getValue() / operands.getse().getValue();
                         break;
-                        
-                        
+                    case sym.NEQ:
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+                              int f = (Integer)fi.value;
+                              int s = (Integer)se.value;
+                              if (f != s) {
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
+                              float f = new Float(fi.value.toString());
+                              float s = new Float(se.value.toString());
+                              if (f != s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else{
+                                 val = new Atype(relop, true,"");
+                            error = true;
+                        }
+                        break;
+                    case sym.GT:
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+                              int f = (Integer)fi.value;
+                              int s = (Integer)se.value;
+                              if (f > s) {
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
+                              float f = new Float(fi.value.toString());
+                              float s = new Float(se.value.toString());
+                              if (f > s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else{
+                                 val = new Atype(relop, true,"");
+                            error = true;
+                        }
+                        break;
+                    case sym.LT:
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+                              int f = (Integer)fi.value;
+                              int s = (Integer)se.value;
+                              if (f < s) {
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
+                              float f = new Float(fi.value.toString());
+                              float s = new Float(se.value.toString());
+                              if (f < s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else{
+                                 val = new Atype(relop, true,"");
+                            error = true;
+                        }
+                        break;
+                    case sym.LTEQ:
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+                              int f = (Integer)fi.value;
+                              int s = (Integer)se.value;
+                              if (f <= s) {
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
+                              float f = new Float(fi.value.toString());
+                              float s = new Float(se.value.toString());
+                              if (f <= s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else{
+                                 val = new Atype(relop, true,"");
+                            error = true;
+                        }
+                        break;
+                    case sym.GTEQ:
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Integer && se.value instanceof Integer) ){
+                              int f = (Integer)fi.value;
+                              int s = (Integer)se.value;
+                              if (f >= s) {
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else if(fi.value instanceof Float && se.value instanceof Float){                                
+                              float f = new Float(fi.value.toString());
+                              float s = new Float(se.value.toString());
+                              if (f >= s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else{
+                                 val = new Atype(relop, true,"");
+                            error = true;
+                        }
+                        break;
                     default:
                         break;
                 } break;

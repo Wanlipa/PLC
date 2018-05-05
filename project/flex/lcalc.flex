@@ -120,8 +120,6 @@ char = \'[A-Za-z_0-9]\'
     "("                { return symbol(sym.LPAREN); }
     ")"                { return symbol(sym.RPAREN); }
     "="                { return symbol(sym.EQ); }
-    "{"                { return symbol(sym.LBRACE); }
-    "}"                { return symbol(sym.RBRACE); }
     "if"               { return symbol(sym.IF); }
     "elseif"           { return symbol(sym.ELSEIF); }
     "else"             { return symbol(sym.ELSE); }
@@ -130,10 +128,12 @@ char = \'[A-Za-z_0-9]\'
     "<<"               { return symbol(sym.LSHIFT); }
     "while"            { return symbol(sym.WHILE); }
     "do"               { return symbol(sym.DO); }
-    "begin"            { return symbol(sym.BEGIN); }
-    "end"              { return symbol(sym.END); }
+    "{"                { return symbol(sym.BEGIN); }
+    "}"                { return symbol(sym.END); }
+    "["                { return symbol(sym.LBRACK); }
+    "]"                { return symbol(sym.RBRACK); }
     "=="               { return symbol(sym.EQEQ); }
-    "<>"               { return symbol(sym.NEQ); }
+    "!="               { return symbol(sym.NEQ); }
     ">"                { return symbol(sym.GT); }
     "<"                { return symbol(sym.LT); }
     "<="               { return symbol(sym.LTEQ); }
