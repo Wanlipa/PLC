@@ -327,9 +327,6 @@ public class Astat {
                     elsebody.execute();
                 }
             }
-//            if (ifcondition.getValue() != 0) {
-//                ifbody.execute();
-//            }
 
 
         }else if (statementType == ifthenelse) {
@@ -380,83 +377,6 @@ public class Astat {
                 elsebody.execute();
             }
             
-           //  System.out.println("con int"+exec_if);
-            
-
-//            if (val.type.equals("INTEGER") || val2.type.equals("INTEGER")){
-//                if((Integer)val.value != 0) {
-//                    cond_if = true;          
-//                }else if ((Integer)val2.value != 0){
-//                    cond_else = true;
-//                }                
-//            }else if (val.type.equals("FLOAT") || val2.type.equals("FLOAT")){
-//                if((Float)val.value != 0){
-//                    cond_if = true;
-//                }else if ((Float)val2.value != 0){
-//                    cond_else = true;
-//                }
-//            }           
-//            if (ifcondition.getErr()) {
-//                System.out.println("Exception: Type Error");
-//                System.exit(0);
-//            }
-//            else if(val.type.equals("INTEGER") || val2.type.equals("INTEGER")){
-//                if(conif_int){
-//                    ifbody.execute();
-//                }else if(conelse_int){
-//                    elseifbody.execute();
-//                }else{
-//                    elsebody.execute();
-//                }
-//                
-//            }
-//            else if(val.type.equals("FLOAT") || val2.type.equals("FLOAT")){
-//                if(conif_float){
-//                    ifbody.execute();
-//                }else if (conelse_float){
-//                    elseifbody.execute();
-//                }else{
-//                    elsebody.execute();
-//                }
-//            }
-//            else if(val.type.equals("INTEGER") || val2.type.equals("INTEGER")){
-//                if((Integer)val.value != 0){
-//                    ifbody.execute();
-//                }else if((Integer)val2.value != 0){
-//                    elseifbody.execute();
-//                }else{
-//                    elsebody.execute();
-//                }
-//                
-//            }
-//            else if(val.type.equals("FLOAT") || val2.type.equals("FLOAT")){
-//                if((Float)val.value != 0){
-//                    ifbody.execute();
-//                }else if ((Float)val2.value != 0){
-//                    elseifbody.execute();
-//                }else{
-//                    elsebody.execute();
-//                }
-//            }
-//            else if(val.type.equals("BOOLEAN") || val2.type.equals("BOOLEAN")){
-//                if((Boolean)val.value){
-//                    ifbody.execute();
-//                }else if ((Boolean)val2.value){
-//                    elseifbody.execute();                    
-//                }else{
-//                    elsebody.execute();
-//                }
-//            }
-//            else{
-//                if(cond_if){
-//                    ifbody.execute();
-//                }else if(cond_else){
-//                    elseifbody.execute();
-//                }else{
-//                    elsebody.execute();
-//                }
-//            }
-
 
         }else if (statementType == whileloop) {
             
