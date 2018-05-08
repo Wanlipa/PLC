@@ -1,3 +1,11 @@
+array <char,10> b;
+
+b<0> = 'c';
+b<1> = 'b';
+
+console << b<0> << ',' << b<1> ;
+
+/*
 int a = 15;
 def fun2(int b) => int [{
     return b - 3;
@@ -24,7 +32,7 @@ def testk(int x) => void [{
    console << 'c';
 }];
 console << fun(10);
-
+*/
 /*
 boolean f = false;
 

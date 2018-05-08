@@ -4,6 +4,7 @@ import src.Aexp.AexpType;
 import java.lang.IllegalArgumentException;
 import java.io.*;
 import java.util.*;
+import java.lang.Character;
 
 public class Astat {
 
@@ -432,7 +433,8 @@ public class Astat {
                         SymbolTable.setValue(assVariable, default_value);
                         break;                        
                     case CHAR:
-                        default_value = new Atype(new char[('\u0000')], false, "CHAR");
+                        char x = '\u0000';
+                        default_value = new Atype( x, false, "CHAR");
                         SymbolTable.setValue(assVariable, default_value);
                         break;
                     case ARRAY:
@@ -623,15 +625,17 @@ public class Astat {
             String out = "";
             for (Aexp expr : printEvalList){
                 Atype val = (Atype)expr.getValue();    
-                char[] charArrays = new char[]{'1', '2', '3', 'A', 'B', 'C'};
-                String str = String.valueOf(val.value);
-//                System.out.println("type : "+ val.type+" | print :"+ new String(str));
                 if(expr.getErr()){
                     System.out.println("Type Error in printing Evaluation");
                     System.exit(0);
                 }
                 else{
-                    out += val.value.toString() + " ";
+                    if (val.type.equals("CHAR") ){
+                        out += String.valueOf(val.value).toString();
+                    }else{
+                        out += val.value.toString();
+                    }
+                    
                 }
                 
             }

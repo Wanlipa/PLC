@@ -89,8 +89,8 @@ float = (0\.[0-9]+) | ([1-9][0-9]*\.[0-9]+)
 */
 id = [A-Za-z_][A-Za-z_0-9]*
 boolean = true | false
-char = \'[A-Za-z_0-9]\'
-
+// char = \'[A-Za-z_0-9]\'
+char = \'[^\']\'
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */

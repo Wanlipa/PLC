@@ -255,8 +255,9 @@ public class Aexp {
                     
                 }
                 else if (val_type.equals("CHAR")){
-                    char[] tmp = (char[])id_array.value;                      
-                    val = new Atype(new char[tmp[index]], false, "CHAR"); 
+                    char[] tmp = (char[])id_array.value;
+                    char s = tmp[index] ;
+                    val = new Atype(s, false, "CHAR"); 
                 }
                 
                 break;
