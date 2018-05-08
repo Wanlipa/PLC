@@ -1,9 +1,23 @@
-array <char,10> b;
+def fun2(int b) => int [{
+    return b - 3;
+}];
 
-b<0> = 'c';
-b<1> = 'b';
 
-console << b<0> << ',' << b<1> ;
+def fun(int b) => int [{
+    return b + fun2(b);
+}];
+
+def factorial(int n) => int [{
+    if (n == 1) => [{
+        return 1;
+    }]
+    else => [{
+        return  (factorial(n - 1) * n)  ;
+    }];
+}];
+
+
+console << factorial(5) + factorial(3) + fun(20);
 
 /*
 int a = 15;

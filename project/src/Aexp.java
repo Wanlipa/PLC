@@ -184,9 +184,7 @@ public class Aexp {
                 
             case IDARRAY:                
                 
-//                System.out.println("I AM HEEREERERERE11");
                 Atype id_array = SymbolTable.getValue(id);
-                //System.out.println("I AM HEEREERERERE22");
                 if (id_array == null){
                     System.out.println("Exception: " + id + " was not declared");
                     System.exit(0);

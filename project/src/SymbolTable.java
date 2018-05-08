@@ -31,10 +31,12 @@ public class SymbolTable extends Hashtable<String,Object>{
     
     
     public static String setContextReturnAddress(String context_id, String addr){
+        //System.out.println("Setting Return Address for context_id: " + context_id);
         return globalTable.context_return_addrs.put(context_id, addr);
     }
     
     public static String getContextReturnAddress(String context_id){
+        //System.out.println("Getting Return Address for context_id: " + context_id);
         return globalTable.context_return_addrs.get(context_id);
     }
     
@@ -115,6 +117,7 @@ public class SymbolTable extends Hashtable<String,Object>{
 
 
     static Atype getValue(String id){
+        
         if (globalTable.context_ids.size() > 0){
             // Traceback scopes
             for (int i = globalTable.context_ids.size() - 1; i >= 0; i-- ){

@@ -24,7 +24,7 @@ public class Astat {
     public static int function_call_void = 12;
     
     public Aexp ret_expr;
-    public String ret_id;
+    // public String ret_id;
     
     public static Astat fnreturn(Aexp e){
         Astat statement = new Astat();
@@ -663,7 +663,7 @@ public class Astat {
         }
         else if (statementType == function_return){
             
-            ret_id = SymbolTable.getCurrentContextReturnAddress();
+            String ret_id = SymbolTable.getCurrentContextReturnAddress();
             String cxt = SymbolTable.getCurrentContext();
 //            if(ret_id == null){
 //                System.out.println("Compiler Error: ret_id should be set by function before call");
@@ -676,8 +676,9 @@ public class Astat {
                     System.out.println("Exception: Type Error");
                     System.exit(0);
                 }
-            
-            SymbolTable.setValue(ret_id, retval, cxt); // Return address will evaluate at global for now
+                
+                SymbolTable.setValue(ret_id, retval, cxt); // Return address will evaluate at global for now
+                
             }
             
             SymbolTable.context_break = true;

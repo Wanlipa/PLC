@@ -92,23 +92,26 @@ public class FunctionObject {
        // 3.2 evaluate return value
        Atype retval = null;
        if (!isReturnVoid()){
+
         retval = SymbolTable.getValue(ret_id);
+        
+        if(retval == null){
+            System.out.println("Compiler Error:  Cannot get return value of " + f_id + "at context: " + current_context  );
+            System.exit(0);
+        }
+        
         // return type evaluation
         if (!retval.type.equals(ret_type)){
             System.out.println("Exception: Function " + f_id + "Return type miss matched");
-             System.out.println("Expected Return type: " + ret_type + ", Get: " + retval.type);
-             System.exit(0);
+            System.out.println("Expected Return type: " + ret_type + ", Get: " + retval.type);
+            System.exit(0);
         }
        }
        
        // 4. Clear Context
-       //System.out.println("I AM IN FUNCTION => " + f_id);
-       
-       
        SymbolTable.popContext();
        SymbolTable.clearContextData(current_context);
        SymbolTable.context_break = false;
-       
        return retval;
        //System.exit(0);
    }
@@ -133,7 +136,8 @@ public class FunctionObject {
    }
    
    private void createReturnID(){
-       this.ret_id =  f_id + "_" + "ret" + "@" + randomString(6);
+       //this.ret_id =  f_id + "_" + "ret" + "@" + randomString(6);
+       this.ret_id =  f_id + "_" + "ret";
    }
    
    
