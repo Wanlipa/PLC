@@ -1,60 +1,4 @@
-<<<<<<< HEAD
 
-
-
-int y = 12;
-
-console << y;
-
-//int y = 10;
-
-//console << y;
-
-
-
-
-/*
-x = 12;
-int p = 13;
-
-def addition(int a,int b) => int [{
-    return a + b; 
-}];
-
-console << addition(x,p);
-*/
-/*
-array <int,10> c;
-c<1> = 1;
-c<5> = 199;
-
-console << c<1> << '|' << c<5>;
-
-*/
-
-
-
-
-=======
-int a = 1;
-int b = 3;
-
-if (a == 1) => [{
-    console << 'h';
-}]
-elseif (a == 2) => [{
-    console << 'b';
-}]
-elseif (a == 3) => [{
-    console << 'y';
-}]
-else => [{
-    console << 'x';
-}];
-
-
-/*
->>>>>>> ad5f69968bcf95144200e6a5a5f84424cd2d7acf
 def fun2(int b) => int [{
     return b - 3;
 }];
@@ -75,12 +19,8 @@ def factorial(int n) => int [{
 
 console << factorial(5) + factorial(3);
 
-<<<<<<< HEAD
-//console << a;
-=======
+
 console << factorial(5) + factorial(3) + fun(20);
-*/
->>>>>>> ad5f69968bcf95144200e6a5a5f84424cd2d7acf
 
 /*
 int a = 15;

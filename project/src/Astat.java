@@ -267,8 +267,6 @@ public class Astat {
         statement.statementType = ifthen;
         statement.branches = bs; 
         // Collections.reverse(statement.branches);
-        System.out.print("Statement Size = ");
-        System.out.println(statement.branches.size());
         return statement;
     }
     
@@ -578,7 +576,7 @@ public class Astat {
                         
                     }
                     
-                    System.out.println("I AM HERE!!!!!!!");
+                    
                 }
             }
             
