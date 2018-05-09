@@ -1,0 +1,25 @@
+/* Function */
+int a = 2;
+def fun2(int b) => int [{
+    return b - 3;
+}];
+
+
+def fun(int b) => int [{
+    return a + fun2(b);
+}];
+
+def factorial(int n) => int [{
+    if (n == 1) => [{
+        return 1;
+    }]
+    else => [{
+        return  (factorial(n - 1) * n)  ;
+    }];
+}];
+
+
+
+//           120        +  19 (if a == 2)
+console << factorial(5) + fun(20);
+

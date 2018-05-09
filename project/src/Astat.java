@@ -411,12 +411,9 @@ public class Astat {
                       SymbolTable.setValue(assVariable, id);
                   }
                   else if (array_val_type.equals("CHAR")) {
-                      char[] tmp = (char[]) id.value;
-                      System.out.println("char val :: "+value.value);
-                      tmp[idx] = (char) value.value;
-                      System.out.println("char tmp :: "+tmp[idx]);
-                      id.value = tmp;
-                      System.out.println("char id :: "+ id.value);
+                      char[] tmp = (char[]) id.value;                      
+                      tmp[idx] = (char) value.value;                      
+                      id.value = tmp;                      
                       SymbolTable.setValue(assVariable, id);
                   }
                   else {
@@ -448,12 +445,14 @@ public class Astat {
             
 
         }else if (statementType == assigntype){
+            /*
             Atype tmp_id = (Atype)SymbolTable.getValue(assVariable);
             if (tmp_id != null){
                 System.out.println("Exception: Duplicate Variable decration in context: " + assVariable);
                 System.exit(0);
             }
-                    
+            */
+            
             if (assExpr != null){
                 // If there is an expression, we will validate it
                 // TODO -- may include implicit type conversion here
@@ -511,7 +510,6 @@ public class Astat {
                                 SymbolTable.setValue(assVariable, default_value);
                                 break;
                             case INTEGER:
-                                System.out.println("Creating Array type INT SIZE : " + assArraySize.toString());
                                 default_value = new Atype(new Integer[assArraySize], false, "ARRAY");
                                 SymbolTable.setValue(assVariable, default_value);
                                 break;
@@ -520,7 +518,6 @@ public class Astat {
                                 SymbolTable.setValue(assVariable, default_value);
                                 break;
                             case CHAR:
-                                System.out.println("Creating Array type CHAR SIZE : " + assArraySize.toString());
                                 default_value = new Atype(new char[assArraySize], false, "ARRAY");
                                 SymbolTable.setValue(assVariable, default_value);
                                 break;

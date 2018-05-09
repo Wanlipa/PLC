@@ -1,0 +1,23 @@
+/* While Condition */
+
+int a = 5;
+float b = 0.5;
+
+while a =>
+[{ 
+    b = b * a;
+    a = a - 1;
+   console << b;
+}];
+
+
+
+
+
+
+
+
+
+
+
+

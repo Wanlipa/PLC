@@ -597,6 +597,40 @@ public class Aexp {
                             error = true;
                         }
                         break;
+                    case sym.AND:
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Boolean && se.value instanceof Boolean) ){
+                              boolean f = (Boolean)fi.value;
+                              boolean s = (Boolean)se.value;
+                              if (f && s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else{
+                                val = new Atype(val, true,"");
+                            error = true;
+                        }
+                        break;
+                    case sym.OR:
+                        if(operands.getfi().error || operands.getse().error ){
+                            error = true;
+                        }
+                        else if((fi.value instanceof Boolean && se.value instanceof Boolean) ){
+                              boolean f = (Boolean)fi.value;
+                              boolean s = (Boolean)se.value;
+                              if (f || s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else{
+                                val = new Atype(val, true,"");
+                            error = true;
+                        }
+                        break;
                     default:
                         break;
                 } break;

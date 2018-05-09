@@ -14,7 +14,7 @@ terminal Boolean   BLVAL;
 terminal char      CHARVAL;
 
 non terminal Object              program;
-non terminal Astat               statement, assignment, ifthen ,console , while, statement_part, assigntype, func_def;
+non terminal Astat               statement, assignment, ifthen ,console , while, statement_part, vardec, func_def;
 non terminal Lstat               statement_list;
 non terminal ArrayList<Aexp>     print_val, func_eval_params;
 non terminal ArrayList<FuncArg>  func_args;
@@ -44,7 +44,7 @@ statement_part  ::= statement:s
 
 statement       ::= assignment:s
                     {: RESULT = s; :}
-                | assigntype:s
+                | vardec:s
                     {: RESULT = s; :}
                 | func_def:s
                     {: RESULT = s; :}
@@ -72,7 +72,7 @@ assignment      ::= ID:i EQ expr:e
                     {: RESULT = Astat.assignmentArray(i,e_index, e_val); :}
                 ;
 
-assigntype      ::= TYPE:t ID:i EQ expr:e
+vardec      ::= TYPE:t ID:i EQ expr:e
                     {: RESULT = Astat.assigntype(t.toString(),i,e); :} 
                 |   TYPE:t ID:i  
                     {: RESULT = Astat.assigntype(t.toString(),i); :}                
@@ -156,6 +156,10 @@ expr            ::= expr:e1 EQEQ expr:e2
                     {: RESULT = new Aexp(new Args(e1,e2), sym.LTEQ); :}
                 | expr:e1 GTEQ expr:e2
                     {: RESULT = new Aexp(new Args(e1,e2), sym.GTEQ); :}
+                | expr:e1 AND expr:e2
+                    {: RESULT = new Aexp(new Args(e1,e2), sym.AND); :}
+                | expr:e1 OR expr:e2
+                    {: RESULT = new Aexp(new Args(e1,e2), sym.OR); :}
                 | expr:e PLUS group:g
                     {: RESULT = new Aexp(new Args(e,g), sym.PLUS); :}
                 | expr:e MINUS group:g

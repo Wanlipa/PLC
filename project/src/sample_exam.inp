@@ -1,0 +1,26 @@
+/* Exam */
+// Dynamic Binding with Copying Mechanism
+/*
+int a;
+
+
+def f(int x) => int [{
+    x = x + 1;
+    return x + a;
+}];
+
+a = 5;
+console << (a + f(a));
+console << (f(a) + a);
+*/
+
+int a = 9;
+float b = 5.5;
+boolean c ;
+boolean d ;
+
+c = (a == 9);
+d = (3.3 == b);
+
+//console << 'c' << c << 'd' << d;
+console << c | d;

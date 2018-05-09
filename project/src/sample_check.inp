@@ -1,0 +1,10 @@
+/* Check Error */
+// --------- Example 1 ---------
+int i = 8;
+
+//int k = 5.5; //Example 1 should be fail declaration error
+float k = 5.5; // Example 2 : Should be Okay will convert to float
+//char k = 'c';  //Example 3 : Should be Fail at evaluating print
+//boolean k = true; //Example 4 : Should be Fail at evaluating print
+
+console << i + k;

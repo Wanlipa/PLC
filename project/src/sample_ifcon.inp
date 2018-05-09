@@ -1,0 +1,14 @@
+/* If Condition */
+
+char a = 'a';
+int b = (3*10) - (55/11);
+float c = 5.5;
+boolean e = true;
+
+if 1-1 => [{ console << a; }]
+elseif e => [{console << b; }] // run this else if
+elseif (c - 5.5) => [{ console << b; }]
+else => [{ console << 7*10; }];
+
+
+
