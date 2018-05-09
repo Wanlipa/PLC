@@ -427,6 +427,26 @@ public class Aexp {
                               }
                               val = new Atype(relop,false,"BOOLEAN");
                         }
+                        else if(fi.value instanceof Boolean && se.value instanceof Boolean){                                
+                              //boolean f = new Boolean(fi.value.toString());
+                              //boolean s = new Boolean(se.value.toString());
+                              Boolean f = (Boolean) fi.value;
+                              Boolean s = (Boolean) se.value;
+                              if (f.booleanValue() == s.booleanValue()){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else if(fi.type.equals("CHAR") && se.type.equals("CHAR")){                                
+                              //boolean f = new Boolean(fi.value.toString());
+                              //boolean s = new Boolean(se.value.toString());
+                              char f = (char) fi.value;
+                              char s = (char) se.value;
+                              if (f == s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
                         else{
                                  val = new Atype(relop, true,"");
                             error = true;
@@ -447,6 +467,26 @@ public class Aexp {
                         else if(fi.value instanceof Float && se.value instanceof Float){                                
                               float f = new Float(fi.value.toString());
                               float s = new Float(se.value.toString());
+                              if (f != s){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else if(fi.value instanceof Boolean && se.value instanceof Boolean){                                
+                              //boolean f = new Boolean(fi.value.toString());
+                              //boolean s = new Boolean(se.value.toString());
+                              Boolean f = (Boolean) fi.value;
+                              Boolean s = (Boolean) se.value;
+                              if (f.booleanValue() != s.booleanValue()){
+                                  relop = true;
+                              }
+                              val = new Atype(relop,false,"BOOLEAN");
+                        }
+                        else if(fi.type.equals("CHAR") && se.type.equals("CHAR")){                                
+                              //boolean f = new Boolean(fi.value.toString());
+                              //boolean s = new Boolean(se.value.toString());
+                              char f = (char) fi.value;
+                              char s = (char) se.value;
                               if (f != s){
                                   relop = true;
                               }

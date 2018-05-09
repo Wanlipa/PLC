@@ -1,4 +1,17 @@
+/* If Condition */
 
+char a = 'a';
+float b = 5.5;
+boolean e = true;
+
+if 1-1 => [{ console << e; }]
+elseif 0 => [{console << e; }]
+elseif (b - 5.5) => [{ console << b; }]
+else => [{ console << 88888; }];
+
+//console << (a == 'b') != true;
+
+/*
 def fun2(int b) => int [{
     return b - 3;
 }];
@@ -21,7 +34,7 @@ console << factorial(5) + factorial(3);
 
 
 console << factorial(5) + factorial(3) + fun(20);
-
+*/
 /*
 int a = 15;
 def fun2(int b) => int [{
