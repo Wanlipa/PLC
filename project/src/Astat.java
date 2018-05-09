@@ -658,7 +658,14 @@ public class Astat {
         else if (statementType == functiondef){
             // Allocate in global scope
             Atype value = new Atype(fobj, false, "FUNCTION");
-            SymbolTable.setValue(fobj.f_id, value, "GLOBAL");
+            Atype fn_item = SymbolTable.getGlobalValue(fobj.f_id);
+            if (fn_item != null){
+                System.out.println("Exception: Duplicate Function Declaration \" " + fobj.f_id + " \" " );
+                System.exit(0);
+            }
+            else{
+                SymbolTable.setValue(fobj.f_id, value, "GLOBAL");
+            }
         
         }
         else if (statementType == function_return){
