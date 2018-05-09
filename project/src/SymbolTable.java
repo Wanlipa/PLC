@@ -95,10 +95,10 @@ public class SymbolTable extends Hashtable<String,Object>{
     static void setValue(String id, Atype value){
         // For now will only writeable to local scope
         // In the future may need keywords like (global in python) to determine scope
-        if (globalTable.get(id) != null){
-            System.out.println("Error: " + "duplicate variable >> " + id);
-            System.exit(0);
-        }
+//        if (globalTable.get(id) != null){
+//            System.out.println("Error: " + "duplicate variable >> " + id);
+//            System.exit(0);
+//        }
         if (globalTable.context_ids.size() > 0){
             String curr_context = getCurrentContext();
             globalTable.put(id + "#" + curr_context, value);

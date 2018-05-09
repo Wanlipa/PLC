@@ -4,10 +4,10 @@ char a = 'a';
 float b = 5.5;
 boolean e = true;
 
-if 1-1 => [{ console << e; }]
+if 1-1 => [{ console << 5; }]
 elseif 0 => [{console << e; }]
 elseif (b - 5.5) => [{ console << b; }]
-else => [{ console << 88888; }];
+else => [{ console << 7*10; }];
 
 //console << (a == 'b') != true;
 
