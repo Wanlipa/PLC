@@ -1,3 +1,21 @@
+int a = 1;
+int b = 3;
+
+if (a == 1) => [{
+    console << 'h';
+}]
+elseif (a == 2) => [{
+    console << 'b';
+}]
+elseif (a == 3) => [{
+    console << 'y';
+}]
+else => [{
+    console << 'x';
+}];
+
+
+/*
 def fun2(int b) => int [{
     return b - 3;
 }];
@@ -18,6 +36,7 @@ def factorial(int n) => int [{
 
 
 console << factorial(5) + factorial(3) + fun(20);
+*/
 
 /*
 int a = 15;

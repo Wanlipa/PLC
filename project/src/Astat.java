@@ -230,9 +230,22 @@ public class Astat {
      * if then statement: if ifcondition then ifbody
      *
      */
+    
+    ArrayList<BranchObject> branches;
+    public static Astat ifthen(ArrayList<BranchObject> bs){
+        Astat statement = new Astat();
+        statement.statementType = ifthen;
+        statement.branches = bs; 
+        // Collections.reverse(statement.branches);
+        System.out.print("Statement Size = ");
+        System.out.println(statement.branches.size());
+        return statement;
+    }
+    
+    /*
     Aexp ifcondition;
     Astat ifbody;
-
+    
     public static Astat ifthen(Aexp Condition, Astat Ifbody) {
         Astat statement = new Astat();
         statement.statementType = ifthen;
@@ -264,7 +277,8 @@ public class Astat {
         statement.elsebody = Elsebody;
         return statement;
     }
-
+    */
+    
     /*
      * block statement: begin statement_list end
      */
@@ -295,15 +309,17 @@ public class Astat {
 
 
     public String getstat() {
+        /*
         if (statementType == assignment) {
             return assVariable + "=" + assExpr.getexp();        
         }else if (statementType == ifthen) {
             return "if " + ifcondition.getexp() + " " + ifbody.getstat();
         } 
+        */
         //else if (statementType == print) {
         //    return "print " + printE.getexp();
         //} 
-        else if (statementType == whileloop) {
+        if (statementType == whileloop) {
             return "while " + whileCondition.getexp() + " => " + whileBody.getstat();
         } else if (statementType == block) {
             return "block";
@@ -471,113 +487,59 @@ public class Astat {
       
                 
             
-        }else if (statementType == ifthen) {
-
-            Atype val = (Atype)ifcondition.getValue();
-            if (ifcondition.getErr()) {
-                System.out.println("Exception: Type Error");
-                System.exit(0);
-            }
-            else if(val.type.equals("INTEGER")){
-                if((Integer)val.value != 0){
-                    ifbody.execute();
+        }
+        
+        else if (statementType == ifthen) {
+            for (int i = branches.size()-1; i >= 0; i-- ){
+                BranchObject b =  branches.get(i);
+                
+                if (b.condition == null) {
+                    // handle "else" statement, execute anyway!
+                    b.body.execute();
+                    break;
+                }
+                else{
+                    
+                    Atype val = (Atype)b.condition.getValue();
+                    if (b.condition.getErr()) {
+                        System.out.println("Exception: Type Error in branching condition eval");
+                        System.exit(0);
+                    }
+                    else if (val.type.equals("INTEGER")) {
+                        if((Integer)val.value != 0){
+                            b.body.execute();
+                            break;
+                        }
+                        
+                    }
+                    else if (val.type.equals("FLOAT")) {
+                        if((Float)val.value != 0){
+                            b.body.execute();
+                            break;
+                        }
+                        
+                    }
+                    else if (val.type.equals("BOOLEAN")) {
+                        if((Boolean)val.value == true){
+                            b.body.execute();
+                            break;
+                        }
+                        
+                    }
+                    else if (val.type.equals("CHAR")) {
+                        if((char)val.value != '\u0000'){
+                            b.body.execute();
+                            break;
+                        }
+                        
+                    }
+                    
+                    System.out.println("I AM HERE!!!!!!!");
                 }
             }
-            else if(val.type.equals("FLOAT")){
-                if((Float)val.value != 0){
-                    ifbody.execute();
-                }
-            }
-            else if(val.type.equals("BOOLEAN")){
-                if((Boolean)val.value){
-                    ifbody.execute();
-                }
-            }
-//            if (ifcondition.getValue() != 0) {
-//                ifbody.execute();
-//            }
-
-
-        }else if (statementType == ifelse) {
-
-            Atype val = (Atype)ifcondition.getValue();
-            if (ifcondition.getErr()) {
-                System.out.println("Exception: Type Error");
-                System.exit(0);
-            }
-            else if(val.type.equals("INTEGER")){
-                if((Integer)val.value != 0){
-                    ifbody.execute();
-                }else{
-                    elsebody.execute();
-                }
-            }
-            else if(val.type.equals("FLOAT")){
-                if((Float)val.value != 0){
-                    ifbody.execute();
-                }else{
-                    elsebody.execute();
-                }
-            }
-            else if(val.type.equals("BOOLEAN")){
-                if((Boolean)val.value){
-                    ifbody.execute();
-                }else{
-                    elsebody.execute();
-                }
-            }
-
-
-        }else if (statementType == ifthenelse) {
             
-            Atype val = (Atype)ifcondition.getValue();
-            Atype val2 = (Atype)elseifcondition.getValue();
-            
-            if (ifcondition.getErr()) {
-                System.out.println("Exception: Type Error");
-                System.exit(0);
-            }
-            
-            if (elseifcondition.getErr()){
-                System.out.println("Exception: Type Error");
-                System.exit(0);
-            }
-
-            boolean exec_if = false;
-            boolean exec_elif = false;
-            
-            if (val.type.equals("INTEGER")){
-                exec_if = ((Integer)val.value != 0);
-            }
-            else if (val.type.equals("FLOAT")){
-                exec_if = ((Float)val.value != 0.0);
-            }
-            else if (val.type.equals("BOOLEAN")){
-                exec_if = ((Boolean)val.value);
-            }
-            
-            if (val2.type.equals("INTEGER")){
-                exec_elif = ((Integer)val2.value != 0);
-            }
-            else if (val2.type.equals("FLOAT")){
-                exec_elif = ((Float)val2.value != 0.0);
-            }
-            else if (val2.type.equals("BOOLEAN")){
-                exec_elif = ((Boolean)val2.value);
-            }
-            
-            if (exec_if){
-                ifbody.execute();
-            }
-            else if (exec_elif){
-                elseifbody.execute();
-            }
-            else{
-                elsebody.execute();
-            }
-            
-
-        }else if (statementType == whileloop) {
+        }          
+        else if (statementType == whileloop) {
             
             for (;;) {
                 Atype val = (Atype)whileCondition.getValue();

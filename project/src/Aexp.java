@@ -412,9 +412,9 @@ public class Aexp {
                             error = true;
                         }
                         else if((fi.value instanceof Integer && se.value instanceof Integer) ){
-                              int f = (Integer)fi.value;
-                              int s = (Integer)se.value;
-                              if (f == s) {
+                              Integer f = (Integer)fi.value;
+                              Integer s = (Integer)se.value;
+                              if (f.intValue() == s.intValue()) {
                                   relop = true;
                               }
                               val = new Atype(relop,false,"BOOLEAN");
