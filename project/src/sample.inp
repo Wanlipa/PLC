@@ -1,3 +1,39 @@
+
+
+
+int y = 12;
+
+console << y;
+
+//int y = 10;
+
+//console << y;
+
+
+
+
+/*
+x = 12;
+int p = 13;
+
+def addition(int a,int b) => int [{
+    return a + b; 
+}];
+
+console << addition(x,p);
+*/
+/*
+array <int,10> c;
+c<1> = 1;
+c<5> = 199;
+
+console << c<1> << '|' << c<5>;
+
+*/
+
+
+
+
 def fun2(int b) => int [{
     return b - 3;
 }];
@@ -16,8 +52,9 @@ def factorial(int n) => int [{
     }];
 }];
 
+console << factorial(5) + factorial(3);
 
-console << factorial(5) + factorial(3) + fun(20);
+//console << a;
 
 /*
 int a = 15;
@@ -63,14 +100,17 @@ e = 10*20 >= 2-10;
 //console << e;
 //console << c!=d;
 
+*/
 
+/*
+int a = 15;
 int b = 5;
 
 while a =>
 [{ 
     b = b * a;
     a = a - 1;
-console << b;
+   console << a;
 }];
 
 

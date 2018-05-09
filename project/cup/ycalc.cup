@@ -74,11 +74,10 @@ assignment      ::= ID:i EQ expr:e
 assigntype      ::= TYPE:t ID:i EQ expr:e
                     {: RESULT = Astat.assigntype(t.toString(),i,e); :} 
                 |   TYPE:t ID:i  
-                    {: RESULT = Astat.assigntype(t.toString(),i); :}
+                    {: RESULT = Astat.assigntype(t.toString(),i); :}                
                 | TYPE:t1 LT TYPE:t2 COMMA IVAL:size GT ID:i  
                     {: RESULT = Astat.assignTypeArray(t1.toString(),t2.toString(), size, i); :}
                 ;
-
 
 while           ::= WHILE expr:e THEN LBRACK statement:s RBRACK
                     {: RESULT = Astat.whileloop(e,s); :}

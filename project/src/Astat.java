@@ -144,6 +144,36 @@ public class Astat {
         return statement;
     }
     
+//        public static Astat assigntype(String type, ArrayList<String> Variable) {
+//         
+//         String FullType = "";
+//         if(type.equals("boolean")){
+//             FullType = "BOOLEAN";
+//         }
+//         else if(type.equals("int")){
+//             FullType = "INTEGER";
+//         }
+//         else if(type.equals("float")){
+//             FullType = "FLOAT";
+//         }
+//         else if(type.equals("char")){
+//             FullType = "CHAR";
+//         }
+//         else{
+//             System.out.println("Type Error!");
+//             throw new IllegalArgumentException("Type Error for id: " + Variable);
+//         }
+//        Astat statement = new Astat();
+//        statement.statementType = assigntype;
+//        statement.assType = AexpType.valueOf(FullType); // conver string to enum
+////        for(int i = 0; i < Variable.size(); i++){
+//        statement.assVariable = Variable.toString();
+////        }        
+//        statement.assExpr = null;
+//
+//        return statement;
+//    }
+    
     public static Astat assignTypeArray(String t1, String t2, int arr_size, String Variable){
         Astat statement = new Astat();
         if ((t1.toUpperCase().equals("ARRAY") )){
@@ -318,9 +348,11 @@ public class Astat {
 
         if (statementType == assignment) {
             
+            
             if (assArrayIndexExpr != null){
                 // Array Assignment
                 Atype id = SymbolTable.getValue(assVariable);
+                
                 if (! id.type.equals("ARRAY") ){
                     System.out.println("Exception: " + "Non-array type is not accessible by index");
                     System.exit(-1);
@@ -385,9 +417,9 @@ public class Astat {
                
                 
             }else{
-                
+
                 Atype value = (Atype)assExpr.getValue();
-                Atype id = SymbolTable.getValue(assVariable);
+                Atype id = SymbolTable.getValue(assVariable);                
                 if (value.typeEquals(id)){
                  SymbolTable.setValue(assVariable, value);
                 } else{
@@ -402,13 +434,25 @@ public class Astat {
             
 
         }else if (statementType == assigntype){
+
             if (assExpr != null){
                 // If there is an expression, we will validate it
                 // TODO -- may include implicit type conversion here
                 Atype value = null;
                 value = (Atype) assExpr.getValue();
+                
+//                System.out.println("have :" + assVariable.toString());
+                
+                
                 if (this.checkType(value)){
+                    
                     SymbolTable.setValue(assVariable, value);
+//                    if (SymbolTable.getValue(assVariable).value != null){
+//                        System.out.println("Exception: " + "duplicate variable");
+//                        System.exit(0);
+//                    }
+//                    Atype id = SymbolTable.getValue(assVariable);
+//                    System.out.println(id.toString() + "have" + id.value.toString());
                 }
                 else{
     
