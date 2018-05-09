@@ -1,6 +1,9 @@
 /* If Condition */
 
 char a = 'a';
+
+char a;
+/*
 float b = 5.5;
 boolean e = true;
 
@@ -10,7 +13,7 @@ elseif (b - 5.5) => [{ console << b; }]
 else => [{ console << 7*10; }];
 
 //console << (a == 'b') != true;
-
+*/
 /*
 def fun2(int b) => int [{
     return b - 3;

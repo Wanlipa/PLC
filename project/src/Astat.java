@@ -448,7 +448,12 @@ public class Astat {
             
 
         }else if (statementType == assigntype){
-
+            Atype tmp_id = (Atype)SymbolTable.getValue(assVariable);
+            if (tmp_id != null){
+                System.out.println("Exception: Duplicate Variable decration in context: " + assVariable);
+                System.exit(0);
+            }
+                    
             if (assExpr != null){
                 // If there is an expression, we will validate it
                 // TODO -- may include implicit type conversion here
@@ -460,7 +465,10 @@ public class Astat {
                 
                 if (this.checkType(value)){
                     
-                    SymbolTable.setValue(assVariable, value);
+                   
+                     SymbolTable.setValue(assVariable, value);
+                    
+                   
 //                    if (SymbolTable.getValue(assVariable).value != null){
 //                        System.out.println("Exception: " + "duplicate variable");
 //                        System.exit(0);
